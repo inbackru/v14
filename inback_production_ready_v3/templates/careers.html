@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Карьера - Работа в InBack{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Станьте частью команды InBack. Открытые вакансии в сфере недвижимости и кешбека. Конкурентная зарплата, быстрый рост, комфортные условия работы.">
+<meta name="keywords" content="работа краснодар, вакансии недвижимость, карьера кешбек, менеджер по продажам, smm специалист, юрист по недвижимости">
+{% endblock %}
+
+{% block content %}
+<!-- Loading Animation -->
+<div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+    <div class="relative w-32 h-32">
+        <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+        <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+        <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+        <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full gradient-bg"></div>
+        </div>
+    </div>
+    <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+</div>
+
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-4">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:text-gray-700 inline-flex items-center" href="{{ url_for('index') }}">
+                    <i class="fas fa-home mr-2"></i>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                    <span class="text-gray-500">Карьера</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section -->
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gray-900">Станьте частью нашей команды</h1>
+            <p class="text-xl text-gray-600 mb-8">Мы растем и ищем талантливых специалистов для развития сервиса кешбека за новостройки</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium" href="#open-positions">Открытые вакансии</a>
+                <a class="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] font-medium" href="#why-us">Почему мы?</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Join Us Section -->
+<section class="py-16 bg-white" id="why-us">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-12 text-center text-gray-900">Почему стоит работать у нас?</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Быстрый рост</h3>
+                <p class="text-gray-600">Возможности для карьерного развития в быстрорастущей компании</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-coins"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Конкурентная оплата</h3>
+                <p class="text-gray-600">Высокие зарплаты и бонусы за результаты</p>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-6">
+                <div class="w-12 h-12 rounded-full bg-[#0088CC] mb-4 flex items-center justify-center text-white text-xl">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Комфортные условия</h3>
+                <p class="text-gray-600">Гибкий график, современный офис и забота о сотрудниках</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Open Positions Section -->
+<section class="py-16 bg-gray-50" id="open-positions">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-12 text-center text-gray-900">Открытые вакансии</h2>
+        
+        <!-- Vacancy 1 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all">
+            <div class="p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-1">Менеджер по продажам</h3>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Продажи</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Недвижимость</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 1 года</span>
+                        </div>
+                    </div>
+                    <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 80 000 ₽</div>
+                </div>
+                <p class="text-gray-600 mb-4">Работа с клиентами, консультации по кешбеку, сопровождение сделок</p>
+                <div class="flex flex-wrap justify-between items-center">
+                    <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Краснодар / Удаленно
+                    </div>
+                    <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vacancy 2 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all">
+            <div class="p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-1">SMM-специалист</h3>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Маркетинг</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Соцсети</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 2 лет</span>
+                        </div>
+                    </div>
+                    <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 90 000 ₽</div>
+                </div>
+                <p class="text-gray-600 mb-4">Развитие соцсетей компании, создание контента, работа с аудиторией</p>
+                <div class="flex flex-wrap justify-between items-center">
+                    <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Краснодар / Удаленно
+                    </div>
+                    <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Vacancy 3 -->
+        <div class="bg-white rounded-xl overflow-hidden shadow-sm mb-8 card-hover transition-all">
+            <div class="p-6 md:p-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-1">Юрист по недвижимости</h3>
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Право</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">ДДУ</span>
+                            <span class="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm">Опыт от 3 лет</span>
+                        </div>
+                    </div>
+                    <div class="text-[#0088CC] font-medium text-lg mb-3 md:mb-0 md:ml-4">от 120 000 ₽</div>
+                </div>
+                <p class="text-gray-600 mb-4">Проверка документов застройщиков, консультации клиентов, юридическое сопровождение</p>
+                <div class="flex flex-wrap justify-between items-center">
+                    <div class="flex items-center text-gray-500 text-sm mb-2 sm:mb-0">
+                        <i class="fas fa-map-marker-alt mr-1"></i> Краснодар
+                    </div>
+                    <a class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] text-sm font-medium" href="{{ url_for('contacts') }}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Apply Section -->
+<section class="py-16 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 text-white">Отправьте свое резюме</h2>
+            <p class="text-xl mb-8 text-white opacity-90">Даже если не нашли подходящую вакансию - присылайте резюме, мы рассмотрим вас для будущих позиций</p>
+            <div class="mb-6">
+                <button onclick="openApplicationModal()" class="px-8 py-4 bg-white text-[#0088CC] font-semibold rounded-lg hover:bg-gray-100 transition-all duration-200 transform hover:scale-[1.02] mr-4">
+                    Записаться на собеседование
+                </button>
+            </div>
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto" action="{{ url_for('contacts') }}" method="post">
+                <div class="relative w-full">
+                    <input class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="resume" type="file" name="resume"/>
+                    <label class="flex items-center justify-between px-6 py-3 rounded-md flex-grow bg-white bg-opacity-20 text-white border border-white border-opacity-30 hover:bg-opacity-30 transition-all cursor-pointer" for="resume">
+                        <span class="text-white">Выберите файл</span>
+                        <i class="fas fa-cloud-upload-alt ml-2 text-white"></i>
+                    </label>
+                </div>
+                <button class="inline-flex items-center px-6 py-3 bg-white text-[#0088CC] rounded-lg hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] font-medium" type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

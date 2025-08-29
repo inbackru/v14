@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block title %}Безопасность сделок - Гарантии InBack{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Гарантии безопасности при покупке квартиры с кешбеком через InBack. Проверенные застройщики, юридическая экспертиза, защита выплат и страхование сделок.">
+<meta name="keywords" content="безопасность сделки, проверенные застройщики, юридическая экспертиза, защита выплат, страхование недвижимости, безопасный кешбек">
+{% endblock %}
+
+{% block content %}
+<!-- Loading Animation -->
+<div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+    <div class="relative w-32 h-32">
+        <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+        <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+        <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+        <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+            <div class="w-8 h-8 rounded-full gradient-bg"></div>
+        </div>
+    </div>
+    <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+</div>
+
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-4">
+    <nav class="flex" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:text-gray-700 inline-flex items-center">
+                    <i class="fas fa-home mr-2"></i>
+                    Главная
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                    <span class="text-gray-500">Безопасная сделка</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section -->
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">Гарантии безопасности вашей сделки</h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-600">InBack обеспечивает максимальную защиту при покупке квартиры в новостройке с кешбеком</p>
+            <button onclick="openApplicationModal()" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium">Получить кешбек</button>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto mb-16 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Как мы защищаем наши сделки</h2>
+            <p class="text-gray-600">Мы внедрили многоуровневую систему проверок, чтобы ваш кешбек был надежно защищен</p>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all">
+                <div class="w-16 h-16 rounded-full bg-ton-blue bg-opacity-10 flex items-center justify-center mb-6 mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Проверенные застройщики</h3>
+                <p class="text-gray-600 text-center">Мы сотрудничаем только с надежными застройщиками, которые прошли строгий отбор и проверку финансовой устойчивости.</p>
+            </div>
+            
+            <!-- Feature 2 -->
+            <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all">
+                <div class="w-16 h-16 rounded-full bg-ton-blue bg-opacity-10 flex items-center justify-center mb-6 mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Юридическая экспертиза</h3>
+                <p class="text-gray-600 text-center">Каждая сделка проверяется нашими юристами. Мы контролируем правильность заполнения документов и соответствие законодательству.</p>
+            </div>
+            
+            <!-- Feature 3 -->
+            <div class="bg-gray-50 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-all">
+                <div class="w-16 h-16 rounded-full bg-ton-blue bg-opacity-10 flex items-center justify-center mb-6 mx-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-3 text-center">Защита выплат</h3>
+                <p class="text-gray-600 text-center">Ваши выплаты застрахованы. В случае форс-мажора мы гарантируем возврат средств через страховой фонд.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Security Process Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Процесс проверки безопасности</h2>
+            <p class="text-gray-600">Каждая сделка проходит тщательную проверку по 6 критериям безопасности</p>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">1</div>
+                    <h3 class="text-lg font-semibold">Проверка застройщика</h3>
+                </div>
+                <p class="text-gray-600">Анализ финансовой отчетности, лицензий и разрешений на строительство</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">2</div>
+                    <h3 class="text-lg font-semibold">Экспертиза документов</h3>
+                </div>
+                <p class="text-gray-600">Юридическая проверка договоров долевого участия и всех документов</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">3</div>
+                    <h3 class="text-lg font-semibold">Оценка рисков</h3>
+                </div>
+                <p class="text-gray-600">Анализ строительных рисков и готовности объекта к сдаче</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">4</div>
+                    <h3 class="text-lg font-semibold">Страхование</h3>
+                </div>
+                <p class="text-gray-600">Оформление страхования сделки и будущих выплат кешбека</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">5</div>
+                    <h3 class="text-lg font-semibold">Мониторинг</h3>
+                </div>
+                <p class="text-gray-600">Постоянное отслеживание хода строительства и статуса проекта</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-ton-blue text-white flex items-center justify-center font-bold mr-4">6</div>
+                    <h3 class="text-lg font-semibold">Выплата кешбека</h3>
+                </div>
+                <p class="text-gray-600">Гарантированная выплата после получения ключей от квартиры</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Guarantees Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Наши гарантии</h2>
+                <p class="text-gray-600">Мы несем полную ответственность за безопасность ваших средств</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="border border-gray-200 rounded-xl p-8">
+                    <h3 class="text-xl font-bold mb-4 text-ton-blue">💰 Гарантия выплаты кешбека</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            100% возврат кешбека после регистрации права собственности
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            Страхование выплат через партнерские страховые компании
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            Резервный фонд для форс-мажорных ситуаций
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="border border-gray-200 rounded-xl p-8">
+                    <h3 class="text-xl font-bold mb-4 text-ton-blue">🛡️ Защита от мошенничества</h3>
+                    <ul class="space-y-3 text-gray-600">
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            Работа только с проверенными застройщиками
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            Полная юридическая экспертиза всех документов
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check text-[#0088CC] mr-3 mt-1"></i>
+                            Контроль законности всех операций
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12">Часто задаваемые вопросы</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none" onclick="toggleFAQ(this)">
+                        <h3 class="font-semibold">Что происходит, если застройщик обанкротится?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">В случае банкротства застройщика, ваши права защищены законом о долевом строительстве. Дополнительно, мы предоставляем страховую защиту кешбека через партнерские компании.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none" onclick="toggleFAQ(this)">
+                        <h3 class="font-semibold">Как я могу быть уверен в получении кешбека?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">Мы заключаем официальный договор на получение кешбека до подписания ДДУ. Все выплаты застрахованы, а наша компания имеет необходимые лицензии и резервные фонды.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none" onclick="toggleFAQ(this)">
+                        <h3 class="font-semibold">Какие документы нужны для безопасной сделки?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">Для безопасной сделки необходимы: паспорт, справка о доходах, договор с InBack на получение кешбека, проектная декларация застройщика и разрешение на строительство.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex items-center justify-between focus:outline-none" onclick="toggleFAQ(this)">
+                        <h3 class="font-semibold">Есть ли скрытые комиссии или платежи?</h3>
+                        <svg class="w-5 h-5 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-4 hidden">
+                        <p class="text-gray-600">Нет! Наши услуги полностью бесплатны для покупателей. Мы получаем вознаграждение от застройщиков, а часть передаем вам в виде кешбека. Никаких скрытых платежей нет.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16 bg-ton-blue text-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6">Остались вопросы о безопасности?</h2>
+            <p class="text-xl mb-8 opacity-90">Свяжитесь с нашими экспертами для персональной консультации</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="openApplicationModal()" class="px-6 py-3 bg-white text-ton-blue rounded-md hover:bg-opacity-90 transition-all font-medium">Получить консультацию</button>
+                <a href="{{ url_for('contacts') }}" class="px-6 py-3 bg-white text-ton-blue rounded-md hover:bg-opacity-90 transition-all font-medium">Задать вопрос</a>
+                <a href="tel:+78001234567" class="px-6 py-3 bg-white bg-opacity-10 text-white border border-white border-opacity-30 rounded-md hover:bg-opacity-20 transition-all font-medium">Позвонить сейчас</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// FAQ Toggle Function
+function toggleFAQ(button) {
+    const content = button.nextElementSibling;
+    const icon = button.querySelector('svg');
+    
+    content.classList.toggle('hidden');
+    icon.classList.toggle('rotate-180');
+}
+</script>
+{% endblock %}

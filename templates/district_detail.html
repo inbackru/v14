@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Район {{ district_name }} - Новостройки и кешбек | InBack</title>
+    <meta name="description" content="Новостройки в районе {{ district_name }} Краснодара с кешбеком до 500 000 ₽. Цены, инфраструктура, карта и лучшие предложения.">
+    <meta name="keywords" content="новостройки {{ district_name }}, жилые комплексы {{ district_name }}, кешбек за квартиру, район {{ district_name }} Краснодар">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ton: {
+                            blue: '#0088cc',
+                            dark: '#222426',
+                            light: '#f5f5f5',
+                            accent: '#00a3e0',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #0088CC 0%, #006699 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-btn {
+            background: transparent;
+            border: none;
+            color: #141A24;
+            font-weight: 500;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        
+        .dropdown-btn:hover {
+            background: rgba(0, 136, 204, 0.1);
+        }
+        
+        .dropdown-btn svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
+        }
+        
+        .dropdown-btn.open svg {
+            transform: rotate(180deg);
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+            padding: 0.5rem 0;
+            min-width: 200px;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease-out;
+            pointer-events: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .dropdown-menu.open,
+        .group:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .dropdown-item {
+            padding: 0.5rem 1rem;
+            color: #141A24;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(0, 136, 204, 0.1);
+            color: #0088CC;
+        }
+        
+        .dropdown-item svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .gallery-container {
+            scrollbar-width: thin;
+            scrollbar-color: #0088cc #f1f1f1;
+        }
+        
+        .gallery-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        .gallery-container::-webkit-scrollbar-thumb {
+            background: #0088cc;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    {% include 'header.html' %}
+
+    <!-- Hero Section -->
+    <section class="relative bg-gradient-to-r from-ton-blue to-ton-accent text-white py-16">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Район {{ district_name }}</h1>
+                <p class="text-lg md:text-xl mb-6">Новостройки с кешбеком до 500 000 ₽ в {{ district_name }}</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button class="bg-white text-ton-blue px-6 py-3 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-calculator mr-2"></i> Рассчитать кешбек
+                    </button>
+                    <button class="bg-transparent border-2 border-white px-6 py-3 rounded-full font-bold hover:bg-white hover:text-ton-blue transition-all duration-300 flex items-center justify-center">
+                        <i class="fas fa-list mr-2"></i> Новостройки района
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-4">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-ton-blue hover:text-ton-accent inline-flex items-center">
+                        <i class="fas fa-home mr-2"></i>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <a href="{{ url_for('districts') }}" class="text-ton-blue hover:text-ton-accent">Районы</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-gray-400 mx-2"></i>
+                        <span class="text-gray-500">{{ district_name }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar -->
+            <div class="lg:w-1/4">
+                <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+                    <h2 class="text-xl font-bold mb-4 text-gray-800">Другие районы</h2>
+                    <div class="space-y-2 max-h-96 overflow-y-auto">
+                        <a href="{{ url_for('district_detail', district='krasnaya-ploshchad') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'krasnaya-ploshchad' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Красная площадь
+                        </a>
+                        <a href="{{ url_for('district_detail', district='9i-kilometr') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == '9i-kilometr' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            9-й километр
+                        </a>
+                        <a href="{{ url_for('district_detail', district='40-let-pobedy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == '40-let-pobedy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            40 лет Победы
+                        </a>
+                        <a href="{{ url_for('district_detail', district='aviagorodok') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'aviagorodok' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Авиагородок
+                        </a>
+                        <a href="{{ url_for('district_detail', district='avrora') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'avrora' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Аврора
+                        </a>
+                        <a href="{{ url_for('district_detail', district='basket-hall') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'basket-hall' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Баскет-холл
+                        </a>
+                        <a href="{{ url_for('district_detail', district='berezovy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'berezovy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Березовый
+                        </a>
+                        <a href="{{ url_for('district_detail', district='cheremushki') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'cheremushki' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Черемушки
+                        </a>
+                        <a href="{{ url_for('district_detail', district='dubinka') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'dubinka' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Дубинка
+                        </a>
+                        <a href="{{ url_for('district_detail', district='enka') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'enka' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Энка
+                        </a>
+                        <a href="{{ url_for('district_detail', district='festivalny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'festivalny' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Фестивальный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='gidrostroitelei') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'gidrostroitelei' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Гидростроителей
+                        </a>
+                        <a href="{{ url_for('district_detail', district='gorkhutor') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'gorkhutor' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Горхутор
+                        </a>
+                        <a href="{{ url_for('district_detail', district='hbk') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'hbk' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            ХБК
+                        </a>
+                        <a href="{{ url_for('district_detail', district='kalinino') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'kalinino' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Калинино
+                        </a>
+                        <a href="{{ url_for('district_detail', district='karasunsky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'karasunsky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Карасунский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='kkb') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'kkb' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            ККБ
+                        </a>
+                        <a href="{{ url_for('district_detail', district='kolosistiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'kolosistiy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Колосистый
+                        </a>
+                        <a href="{{ url_for('district_detail', district='komsomolsky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'komsomolsky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Комсомольский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='kozhzavod') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'kozhzavod' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Кожзавод
+                        </a>
+                        <a href="{{ url_for('district_detail', district='krasnodarskiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'krasnodarskiy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Краснодарский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='ksk') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'ksk' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            КСК
+                        </a>
+                        <a href="{{ url_for('district_detail', district='kubansky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'kubansky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Кубанский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='mkg') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'mkg' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            МКГ
+                        </a>
+                        <a href="{{ url_for('district_detail', district='molodezhny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'molodezhny' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Молодежный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='muzykalny-mkr') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'muzykalny-mkr' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Музыкальный микрорайон
+                        </a>
+                        <a href="{{ url_for('district_detail', district='nemetskaya-derevnya') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'nemetskaya-derevnya' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Немецкая деревня
+                        </a>
+                        <a href="{{ url_for('district_detail', district='novoznamenskiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'novoznamenskiy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Новознаменский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='panorama') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'panorama' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Панорама
+                        </a>
+                        <a href="{{ url_for('district_detail', district='pashkovskiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'pashkovskiy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Пашковский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='pashkovsky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'pashkovsky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Пашковский (2)
+                        </a>
+                        <a href="{{ url_for('district_detail', district='pokrovka') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'pokrovka' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Покровка
+                        </a>
+                        <a href="{{ url_for('district_detail', district='prikubansky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'prikubansky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Прикубанский
+                        </a>
+                        <!-- Новые районы -->
+                        <a href="{{ url_for('district_detail', district='tsentralnyy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'tsentralnyy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Центральный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='uchhoz-kuban') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'uchhoz-kuban' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Учхоз Кубань
+                        </a>
+                        <a href="{{ url_for('district_detail', district='vavilova') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'vavilova' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Вавилова
+                        </a>
+                        <a href="{{ url_for('district_detail', district='votochno-kruglikovskii') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'votochno-kruglikovskii' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Восточно-Кругликовский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='yablonovskiy') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'yablonovskiy' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Яблоновский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='zapadny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'zapadny' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Западный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='zapadny-obhod') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'zapadny-obhod' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Западный обход
+                        </a>
+                        <a href="{{ url_for('district_detail', district='zapadny-okrug') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'zapadny-okrug' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Западный округ
+                        </a>
+                        <a href="{{ url_for('district_detail', district='zip-zhukova') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'zip-zhukova' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            ЗИП Жукова
+                        </a>
+                        <a href="{{ url_for('district_detail', district='shmr') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'shmr' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            ШМРП
+                        </a>
+                        <a href="{{ url_for('district_detail', district='skhi') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'skhi' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            СХИП
+                        </a>
+                        <a href="{{ url_for('district_detail', district='slavyansky') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'slavyansky' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Славянский
+                        </a>
+                        <a href="{{ url_for('district_detail', district='slavyansky2') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'slavyansky2' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Славянский 2
+                        </a>
+                        <a href="{{ url_for('district_detail', district='solnechny') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'solnechny' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Солнечный
+                        </a>
+                        <a href="{{ url_for('district_detail', district='tabachnaya-fabrika') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'tabachnaya-fabrika' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            Табачная фабрика
+                        </a>
+                        <a href="{{ url_for('district_detail', district='tec') }}" class="block p-3 rounded-lg hover:bg-gray-50 transition-colors {% if district == 'tec' %}bg-ton-light text-ton-blue font-semibold{% endif %}">
+                            ТЭЦ
+                        </a>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-ton-light rounded-lg">
+                        <h3 class="font-semibold text-ton-blue mb-2">Нужна помощь?</h3>
+                        <p class="text-sm text-gray-600 mb-3">Поможем выбрать лучшую новостройку</p>
+                        <button class="w-full bg-ton-blue text-white py-2 px-4 rounded-lg text-sm font-semibold hover:bg-ton-accent transition-colors">
+                            Получить консультацию
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="lg:w-3/4">
+                <!-- Featured District Info -->
+                <section class="bg-white rounded-lg shadow-md overflow-hidden mb-8 card-hover">
+                    <div class="md:flex">
+                        <div class="md:w-1/3">
+                            <div class="h-64 md:h-full bg-gradient-to-br from-ton-blue to-ton-accent relative">
+                                <div class="absolute inset-0 bg-black opacity-20"></div>
+                                <div class="absolute bottom-4 left-4 text-white">
+                                    <h2 class="text-2xl font-bold">{{ district_name }}</h2>
+                                    <p class="text-sm opacity-90">Краснодар</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-6 md:w-2/3">
+                            <div class="flex justify-between items-start mb-4">
+                                <h2 class="text-2xl font-bold text-gray-800">Район {{ district_name }}</h2>
+                                <span class="bg-ton-light text-ton-blue text-xs font-semibold px-2.5 py-0.5 rounded">Краснодар</span>
+                            </div>
+                            
+                            <p class="text-gray-600 mb-4">
+                                {% if district == 'krasnaya-ploshchad' %}
+                                    Исторический центр Краснодара с развитой городской инфраструктурой, удобной транспортной доступностью и богатой культурной жизнью.
+                                {% elif district == '9i-kilometr' %}
+                                    Перспективный район с активным строительством и хорошей транспортной доступностью.
+                                {% elif district == 'cheremushki' %}
+                                    Уютный жилой район с развитой социальной инфраструктурой и зелеными зонами.
+                                {% elif district == 'festivalny' %}
+                                    Динамично развивающийся район с современными торговыми центрами.
+                                {% elif district == 'gidrostroitelei' %}
+                                    Один из самых востребованных районов с отличной инфраструктурой.
+                                {% elif district == 'aviagorodok' %}
+                                    Спокойный район с хорошей экологией и удобной транспортной развязкой.
+                                {% else %}
+                                    Развивающийся район Краснодара с хорошими перспективами для покупки недвижимости.
+                                {% endif %}
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                                <div class="flex items-center">
+                                    <i class="fas fa-building text-ton-blue mr-2"></i>
+                                    <span class="text-gray-700">{{ complexes|length }} ЖК</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-home text-ton-blue mr-2"></i>
+                                    <span class="text-gray-700">{{ properties|length }} квартир</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <i class="fas fa-percent text-ton-blue mr-2"></i>
+                                    <span class="text-gray-700">До 10% кешбек</span>
+                                </div>
+                            </div>
+
+                            {% if properties %}
+                            <div class="mb-4">
+                                <h3 class="font-semibold text-gray-800 mb-2">Средняя стоимость жилья:</h3>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-ton-blue h-2.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-600 mt-1">
+                                    <span>{{ "{:,.0f}".format(properties|map(attribute='price')|min) }} ₽</span>
+                                    <span>{{ "{:,.0f}".format(properties|map(attribute='price')|max) }} ₽</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
+                                <button class="bg-ton-blue text-white px-4 py-2 rounded-full font-medium hover:bg-ton-accent transition flex items-center justify-center">
+                                    <i class="fas fa-calculator mr-2"></i> Рассчитать кешбек
+                                </button>
+                                <button class="border border-ton-blue text-ton-blue px-4 py-2 rounded-full font-medium hover:bg-ton-light transition flex items-center justify-center">
+                                    <i class="fas fa-list mr-2"></i> Все новостройки
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- District Details -->
+                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Подробнее о районе {{ district_name }}</h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Инфраструктура</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-shopping-cart text-ton-blue mt-1 mr-2"></i>
+                                    <span>Торговые центры и супермаркеты</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-hospital text-ton-blue mt-1 mr-2"></i>
+                                    <span>Медицинские учреждения</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-graduation-cap text-ton-blue mt-1 mr-2"></i>
+                                    <span>Школы и детские сады</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-tree text-ton-blue mt-1 mr-2"></i>
+                                    <span>Парки и зеленые зоны</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3 text-gray-800">Транспорт</h3>
+                            <ul class="space-y-2 text-gray-600">
+                                <li class="flex items-start">
+                                    <i class="fas fa-bus text-ton-blue mt-1 mr-2"></i>
+                                    <span>Автобусные маршруты</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-car text-ton-blue mt-1 mr-2"></i>
+                                    <span>Удобные выезды на центральные улицы</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-taxi text-ton-blue mt-1 mr-2"></i>
+                                    <span>Доступность такси</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Фотографии района {{ district_name }}</h3>
+                    <div class="relative mb-8">
+                        <div class="gallery-container flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 space-x-4">
+                            <img src="https://via.placeholder.com/300x200?text={{ district_name }}+1" alt="Фото {{ district_name }} 1" class="rounded-lg snap-start flex-shrink-0">
+                            <img src="https://via.placeholder.com/300x200?text={{ district_name }}+2" alt="Фото {{ district_name }} 2" class="rounded-lg snap-start flex-shrink-0">
+                            <img src="https://via.placeholder.com/300x200?text={{ district_name }}+3" alt="Фото {{ district_name }} 3" class="rounded-lg snap-start flex-shrink-0">
+                            <img src="https://via.placeholder.com/300x200?text={{ district_name }}+4" alt="Фото {{ district_name }} 4" class="rounded-lg snap-start flex-shrink-0">
+                        </div>
+                    </div>
+
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">Карта района {{ district_name }}</h3>
+                    <div class="relative bg-gray-100 rounded-lg overflow-hidden mb-8 h-80">
+                        <iframe src="https://yandex.ru/map-widget/v1/?ll=38.97%2C45.04&z=15" width="100%" height="100%" frameborder="0" class="border-0" allowfullscreen aria-label="Карта {{ district_name }}" title="Карта {{ district_name }} Краснодар"></iframe>
+                    </div>
+
+                    <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                        <h4 class="font-semibold text-yellow-800 mb-2"><i class="fas fa-info-circle mr-2"></i>О районе:</h4>
+                        <p class="text-gray-700">
+                            Район {{ district_name }} предлагает отличные возможности для комфортного проживания с развитой инфраструктурой и удобной транспортной доступностью.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Properties in District -->
+                {% if properties %}
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Новостройки в районе {{ district_name }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for property in properties[:4] %}
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden card-hover">
+                            <div class="h-48 bg-gradient-to-br from-gray-200 to-gray-300 relative">
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-ton-blue text-white px-2 py-1 rounded text-xs font-semibold">
+                                        Кешбек {{ "{:,.0f}".format(property.cashback) }} ₽
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 text-gray-800">
+                                    <h3 class="font-bold">{{ property.rooms }}-комн квартира</h3>
+                                    <p class="text-sm">{{ property.area }} м²</p>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-2xl font-bold text-gray-800">{{ "{:,.0f}".format(property.price) }} ₽</span>
+                                    <span class="text-sm text-gray-500">{{ "{:,.0f}".format(property.price / property.area) }} ₽/м²</span>
+                                </div>
+                                <p class="text-gray-600 mb-3">{{ property.address }}</p>
+                                <button class="w-full bg-ton-blue text-white py-2 px-4 rounded-lg font-semibold hover:bg-ton-accent transition-colors">
+                                    Подробнее
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    {% if properties|length > 4 %}
+                    <div class="text-center mt-6">
+                        <button class="bg-transparent border-2 border-ton-blue text-ton-blue px-8 py-3 rounded-full font-bold hover:bg-ton-blue hover:text-white transition-all duration-300">
+                            Показать еще {{ properties|length - 4 }} предложений
+                        </button>
+                    </div>
+                    {% endif %}
+                </section>
+                {% endif %}
+
+                <!-- Residential Complexes -->
+                {% if complexes %}
+                <section class="mb-8">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Жилые комплексы в районе {{ district_name }}</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for complex in complexes[:4] %}
+                        <div class="bg-white rounded-lg shadow-md p-6 card-hover">
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ complex.name }}</h3>
+                            <p class="text-gray-600 mb-4">{{ complex.developer }}</p>
+                            <div class="grid grid-cols-2 gap-4 text-sm text-gray-600 mb-4">
+                                <div>
+                                    <i class="fas fa-building text-ton-blue mr-1"></i>
+                                    {{ complex.buildings_count }} корпуса
+                                </div>
+                                <div>
+                                    <i class="fas fa-home text-ton-blue mr-1"></i>
+                                    {{ complex.apartments_count }} квартир
+                                </div>
+                                <div>
+                                    <i class="fas fa-layer-group text-ton-blue mr-1"></i>
+                                    {{ complex.floors }} этажей
+                                </div>
+                                <div>
+                                    <i class="fas fa-percent text-ton-blue mr-1"></i>
+                                    До {{ complex.cashback_percent }}%
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold text-gray-800">от {{ "{:,.0f}".format(complex.price_from) }} ₽</span>
+                                <button class="bg-ton-blue text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-ton-accent transition-colors">
+                                    Подробнее
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+                {% endif %}
+
+                <!-- Expert Advice -->
+                <div class="bg-yellow-50 p-6 rounded-lg border border-yellow-100">
+                    <h4 class="font-semibold text-yellow-800 mb-3"><i class="fas fa-lightbulb mr-2"></i>Совет эксперта:</h4>
+                    <p class="text-yellow-700 mb-4">
+                        {% if district == 'krasnaya-ploshchad' %}
+                            Отличный выбор для тех, кто хочет жить в центре города с развитой инфраструктурой и культурной жизнью.
+                        {% elif district == 'cheremushki' %}
+                            Идеально подходит для семей с детьми благодаря развитой социальной инфраструктуре.
+                        {% elif district == 'festivalny' %}
+                            Хороший вариант для молодых людей и семей, ценящих современную инфраструктуру.
+                        {% else %}
+                            Перспективный район для инвестиций в недвижимость с хорошим потенциалом роста.
+                        {% endif %}
+                    </p>
+                    <button class="bg-yellow-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-yellow-700 transition-colors">
+                        Получить персональную консультацию
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer_original.html' %}
+
+    <script>
+        function toggleDropdown(button) {
+            const dropdown = button.closest('.dropdown');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            const isOpen = menu.classList.contains('open');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-menu.open').forEach(menu => {
+                menu.classList.remove('open');
+            });
+            document.querySelectorAll('.dropdown-btn.open').forEach(btn => {
+                btn.classList.remove('open');
+            });
+            
+            // Toggle current dropdown
+            if (!isOpen) {
+                menu.classList.add('open');
+                button.classList.add('open');
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.open').forEach(menu => {
+                    menu.classList.remove('open');
+                });
+                document.querySelectorAll('.dropdown-btn.open').forEach(btn => {
+                    btn.classList.remove('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

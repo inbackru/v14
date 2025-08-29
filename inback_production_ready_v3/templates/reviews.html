@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+
+{% block title %}Отзывы клиентов - InBack{% endblock %}
+{% block description %}Отзывы реальных клиентов InBack о получении кешбека за покупку квартир в новостройках. Видеоотзывы, рейтинги и форма для написания отзыва.{% endblock %}
+{% block keywords %}отзывы inback, кешбек отзывы, отзывы новостройки краснодар{% endblock %}
+
+{% block content %}
+
+    <!-- Header Section -->
+    <section class="py-16 bg-gradient-to-r from-ton-blue to-ton-accent text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Отзывы наших клиентов</h1>
+                <p class="text-xl opacity-90">Более 500 счастливых семей получили кешбек при покупке новостройки</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="bg-ton-light rounded-xl p-8">
+                        <div class="text-4xl font-bold gradient-text mb-3">4.8</div>
+                        <div class="text-gray-600 mb-3">Средняя оценка</div>
+                        <div class="flex justify-center text-yellow-400">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                    </div>
+                    <div class="bg-ton-light rounded-xl p-8">
+                        <div class="text-4xl font-bold gradient-text mb-3">500+</div>
+                        <div class="text-gray-600">Довольных клиентов</div>
+                    </div>
+                    <div class="bg-ton-light rounded-xl p-8">
+                        <div class="text-4xl font-bold gradient-text mb-3">₽25M</div>
+                        <div class="text-gray-600">Возвращено кешбека</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-3xl font-bold mb-12 text-center gradient-text">Что говорят наши клиенты</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Review 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Сергей М.</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Получил кешбек 320 тысяч рублей! Все прошло быстро и честно. Рекомендую всем, кто покупает новостройку."</p>
+                        <div class="mt-3 text-xs text-gray-400 flex items-center">
+                            <i class="fab fa-yandex mr-1"></i> Яндекс.Карты
+                        </div>
+                    </div>
+
+                    <!-- Review 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Елена В.</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Очень хороший сервис, вернули 120 тысяч рублей. Процесс был простой, поддерживали на каждом этапе."</p>
+                        <div class="mt-3 text-xs text-gray-400 flex items-center">
+                            <i class="fas fa-map-marked-alt mr-1"></i> 2ГИС
+                        </div>
+                    </div>
+
+                    <!-- Review 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Дмитрий К.</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Купил квартиру в новостройке и через сервис вернул часть денег. Удобно, что можно было отслеживать статус выплаты в личном кабинете."</p>
+                        <div class="mt-3 text-xs text-gray-400 flex items-center">
+                            <i class="fab fa-google mr-1"></i> Google Отзывы
+                        </div>
+                    </div>
+
+                    <!-- Review 4 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Анна М.</h4>
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Получила назад 260 тысяч! Отличный сервис, рекомендую всем, кто покупает квартиру в новостройке."</p>
+                        <div class="mt-3 text-xs text-gray-400 flex items-center">
+                            <i class="fab fa-vk mr-1"></i> VK Отзывы
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Testimonials - New Design -->
+        <div class="max-w-7xl mx-auto" id="video-reviews">
+            <h3 class="text-3xl font-bold mb-12 text-center gradient-text">Видеоотзывы наших клиентов</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Video Card 1 -->
+                <div class="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <div class="relative">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe allowfullscreen="" class="w-full h-64" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 rounded-full w-10 h-10 flex items-center justify-center text-ton-blue">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Александр и Мария</h4>
+                                <p class="text-gray-500 text-sm">Москва, ЖК "Солнечный"</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="bg-ton-blue/10 text-ton-blue px-3 py-1 rounded-full text-sm font-medium">4% кешбек</span>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700 italic">"Спасибо за честный сервис! Вернули 480 000 рублей за нашу новую квартиру. Очень рекомендуем!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 2 -->
+                <div class="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <div class="relative">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe allowfullscreen="" class="w-full h-64" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 rounded-full w-10 h-10 flex items-center justify-center text-ton-blue">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Ольга К.</h4>
+                                <p class="text-gray-500 text-sm">Санкт-Петербург</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="bg-ton-blue/10 text-ton-blue px-3 py-1 rounded-full text-sm font-medium">3.2% кешбек</span>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700 italic">"Быстро и без проблем получила 162 000 рублей за студию. Персонал вежливый, все объяснили, оформление заняло 15 минут!"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Card 3 -->
+                <div class="group bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2">
+                    <div class="relative">
+                        <div class="aspect-w-16 aspect-h-9">
+                            <iframe allowfullscreen="" class="w-full h-64" frameborder="0" src="https://www.youtube.com/embed/dQw4w9WgXcQ"></iframe>
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-16"></div>
+                        <div class="absolute top-4 right-4 bg-white/90 rounded-full w-10 h-10 flex items-center justify-center text-ton-blue">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <div class="w-12 h-12 rounded-full bg-ton-blue/10 flex items-center justify-center text-ton-blue mr-4">
+                                <i class="fas fa-user text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Дмитрий С.</h4>
+                                <p class="text-gray-500 text-sm">Краснодар</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex text-yellow-400">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <span class="bg-ton-blue/10 text-ton-blue px-3 py-1 rounded-full text-sm font-medium">5.1% кешбек</span>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <p class="text-gray-700 italic">"Советую всем! Вернули 650 000 рублей за нашу 3-комнатную квартиру. Все по договору, деньги поступили вовремя!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Service Ratings -->
+        <div class="max-w-5xl mx-auto mt-12">
+            <h3 class="text-2xl font-bold mb-8 text-center">Наши рейтинги на сервисах</h3>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+                        <i class="fas fa-star text-2xl text-yellow-400"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Яндекс.Карты</h4>
+                    <div class="flex justify-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-600">4.7 из 5 (142 оценки)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+                        <i class="fab fa-google text-2xl text-[#0088CC]"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Google Отзывы</h4>
+                    <div class="flex justify-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600">4.9 из 5 (87 оценок)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+                        <i class="fab fa-vk text-2xl text-[#006699]"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">VK Отзывы</h4>
+                    <div class="flex justify-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="text-gray-600">4.6 из 5 (216 оценок)</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-gray-100 rounded-full">
+                        <i class="fab fa-yelp text-2xl text-green-600"></i>
+                    </div>
+                    <h4 class="font-bold mb-2">Flamp</h4>
+                    <div class="flex justify-center text-yellow-400 mb-3">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="text-gray-600">5.0 из 5 (64 оценки)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Section - New Design -->
+        <div class="py-16">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="bg-gradient-to-r from-ton-blue/5 to-[#0088CC]/5 rounded-2xl p-8 md:p-12 shadow-inner">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold mb-4 gradient-text">Поделитесь своим опытом</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Ваш отзыв помогает нам стать лучше и помогает другим клиентам сделать правильный выбор</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 md:p-8 shadow-lg" id="review-form">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Форма для отзыва</h3>
+                        <form class="space-y-6">
+                            <div class="grid gap-6 md:grid-cols-2">
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Ваше имя *</label>
+                                    <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Как к вам обращаться?" required="" type="text"/>
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 font-medium mb-2">Email *</label>
+                                    <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Для обратной связи" required="" type="email"/>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Номер телефона</label>
+                                <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Необязательно" type="tel"/>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Жилой комплекс</label>
+                                <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50">
+                                    <option value="">Выберите ЖК</option>
+                                    <option>ЖК "Солнечный"</option>
+                                    <option>ЖК "Речной"</option>
+                                    <option>ЖК "Центральный"</option>
+                                    <option>Другой</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Застройщик</label>
+                                <select class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50">
+                                    <option value="">Выберите застройщика</option>
+                                    <option>Донстрой</option>
+                                    <option>ПИК</option>
+                                    <option>Эталон</option>
+                                    <option>Другой</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Сумма кешбека</label>
+                                <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Сколько вам вернули?" type="text"/>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Ваша оценка *</label>
+                                <div class="flex items-center space-x-1">
+                                    <button class="star-rating text-3xl text-gray-300 hover:text-yellow-400 transition" data-rating="1" type="button">★</button>
+                                    <button class="star-rating text-3xl text-gray-300 hover:text-yellow-400 transition" data-rating="2" type="button">★</button>
+                                    <button class="star-rating text-3xl text-gray-300 hover:text-yellow-400 transition" data-rating="3" type="button">★</button>
+                                    <button class="star-rating text-3xl text-gray-300 hover:text-yellow-400 transition" data-rating="4" type="button">★</button>
+                                    <button class="star-rating text-3xl text-gray-300 hover:text-yellow-400 transition" data-rating="5" type="button">★</button>
+                                </div>
+                                <input id="rating-value" name="rating" type="hidden" value="0"/>
+                                <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                    <span>Плохо</span>
+                                    <span>Отлично</span>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Заголовок отзыва *</label>
+                                <input class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Кратко опишите ваш опыт" required="" type="text"/>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2">Подробный отзыв *</label>
+                                <textarea class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-ton-blue focus:ring-2 focus:ring-ton-blue/50" placeholder="Расскажите о вашем опыте работы с нами..." required="" rows="5"></textarea>
+                            </div>
+                            <div class="pt-4">
+                                <button class="w-full py-3 px-6 bg-gradient-to-r from-ton-blue to-[#006699] text-white rounded-lg font-medium hover:opacity-90 transition-all shadow-md" type="submit">
+                                    <i class="fas fa-paper-plane mr-2"></i> Опубликовать отзыв
+                                </button>
+                            </div>
+                            <div class="text-xs text-gray-500">
+                                Нажимая кнопку, вы соглашаетесь с <a class="text-ton-blue hover:underline" href="#">политикой обработки персональных данных</a>.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="text-center mt-10">
+                        <p class="text-gray-600 mb-4">Хотите оставить видеоотзыв?</p>
+                        <a class="inline-flex items-center px-5 py-3 bg-white text-ton-blue border border-ton-blue rounded-lg font-medium hover:bg-ton-blue/5 transition" href="#">
+                            <i class="fab fa-youtube text-xl mr-2"></i> Записать видеоотзыв
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}

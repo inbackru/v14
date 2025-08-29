@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Контакты | InBack{% endblock %}
+{% block description %}Свяжитесь с InBack по всем вопросам кешбека за новостройки. Наши контакты, адрес офиса в Краснодаре, телефоны и форма обратной связи.{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-3 text-sm">
+        <nav aria-label="Breadcrumb" class="flex">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                        Главная
+                    </a>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path></svg>
+                        <span class="text-gray-500 ml-1 md:ml-2">Контакты</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Page Header -->
+    <section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-900">Контакты</h1>
+                <p class="text-xl text-gray-600 mb-8">Свяжитесь с нами любым удобным способом</p>
+                
+                <!-- Large Phone Number -->
+                <div class="mb-8">
+                    <a href="tel:+78001234567" class="text-3xl md:text-4xl font-bold text-[#0088CC] hover:text-[#006699] transition-colors">
+                        8 (800) 123-45-67
+                    </a>
+                    <p class="text-sm text-gray-500 mt-1">Бесплатно по России, ежедневно с 9:00 до 21:00</p>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <button onclick="openApplicationModal()" class="px-8 py-4 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02]">
+                        Подобрать квартиру
+                    </button>
+                    <button onclick="scrollToForm()" class="px-8 py-4 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white font-semibold rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02]">
+                        Написать нам
+                    </button>
+                    <a href="mailto:info@inback.ru" class="px-8 py-4 border-2 border-[#0088CC] text-[#0088CC] font-semibold rounded-lg hover:bg-[#0088CC] hover:text-white transition-all duration-200 transform hover:scale-[1.02]">
+                        Email: info@inback.ru
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Intro -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl font-bold mb-6">Мы готовы ответить на все ваши вопросы</h2>
+                <p class="text-lg text-gray-600">
+                    Получите профессиональную консультацию по получению кешбека за новостройку и помощь в оформлении.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Information -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Phone -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-phone text-[#0088CC] text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Телефон</h3>
+                        <p class="text-gray-600 mb-2">
+                            <a href="tel:+78001234567" class="hover:text-[#0088CC]">8 (800) 123-45-67</a>
+                        </p>
+                        <p class="text-sm text-gray-500">Бесплатно по России</p>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-envelope text-[#0088CC] text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Email</h3>
+                        <p class="text-gray-600">
+                            <a href="mailto:info@inback.ru" class="hover:text-[#0088CC]">info@inback.ru</a>
+                        </p>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="bg-white rounded-xl p-6 text-center shadow-sm">
+                        <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-map-marker-alt text-[#0088CC] text-xl"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">Адрес</h3>
+                        <p class="text-gray-600">Краснодар, ул. Красная, 32, офис 305</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-white rounded-xl p-8 shadow-sm">
+                    <h2 class="text-2xl font-bold mb-6 text-center">Напишите нам</h2>
+                    <form class="max-w-2xl mx-auto">
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Имя</label>
+                                <input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Телефон</label>
+                            <input type="tel" id="phone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent">
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Сообщение</label>
+                            <textarea id="message" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-transparent"></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:from-[#006699] hover:to-[#006699] transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium">
+                                Отправить сообщение
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Hours -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <h2 class="text-3xl font-bold mb-6">Режим работы</h2>
+            </div>
+            <div class="max-w-3xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="text-center p-6 bg-gray-50 rounded-xl">
+                        <h3 class="font-semibold text-lg mb-2">Понедельник - Пятница</h3>
+                        <p class="text-gray-600">09:00 - 19:00</p>
+                    </div>
+                    <div class="text-center p-6 bg-gray-50 rounded-xl">
+                        <h3 class="font-semibold text-lg mb-2">Суббота</h3>
+                        <p class="text-gray-600">10:00 - 16:00</p>
+                    </div>
+                    <div class="text-center p-6 bg-gray-50 rounded-xl">
+                        <h3 class="font-semibold text-lg mb-2">Воскресенье</h3>
+                        <p class="text-gray-600">Выходной</p>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <p class="text-gray-600">
+                        Также вы можете написать нам в любое время через форму обратной связи. Мы отвечаем максимально оперативно!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+function scrollToForm() {
+    document.querySelector('form').scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'center'
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Social Meta Tags -->
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack">
+    <meta property="og:description" content="Вернём до 10% стоимости квартиры при покупке новостройки в Краснодаре. Бесплатная юридическая поддержка.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inback.ru/">
+    <meta property="og:image" content="https://inback.ru/social-preview.jpg">
+    <meta property="og:site_name" content="InBack">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack</title>
+    <meta name="description" content="Оформите кэшбек до 10% при покупке квартиры в новостройках Краснодара. Бесплатная юридическая проверка сделки, выгодные условия ипотеки. Вернём до 500 000 рублей!">
+    <meta name="keywords" content="кэшбек за квартиру, новостройки Краснодар, покупка квартиры с кэшбеком, ипотека Краснодар, жильё с возвратом денег">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://inback.ru/" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "InBack",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край"
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ton: {
+                            blue: '#0088cc',
+                            dark: '#222426',
+                            light: '#f5f5f5',
+                            accent: '#00a3e0',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white">
+    <!-- Loading Animation -->
+    <div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+        <div class="relative w-32 h-32">
+            <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+            <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+            <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+            <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full gradient-bg"></div>
+            </div>
+        </div>
+        <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+    </div>
+
+    {% include 'header_updated.html' %}
+
+    <!-- Hero Section -->
+    <section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <div>Новостройки в Краснодаре</div>
+                    <div class="typewriter" id="typewriter" style="min-height: 1.2em">с кэшбеком до 500 000 ₽</div>
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-10">Новостройки Краснодара — с выгодой до 500 000 ₽ на квартиру</p>
+                
+                <!-- Search Box -->
+                <div class="search-box bg-white rounded-full p-2 shadow-lg max-w-2xl mx-auto mb-6">
+                    <div class="flex flex-col md:flex-row">
+                        <input type="text" placeholder="Поиск ЖК, локация, район, улица, застройщик" class="flex-grow px-6 py-3 rounded-full focus:outline-none">
+                        <button class="bg-[rgb(0_136_204)] text-white px-6 py-3 rounded-full hover:opacity-90 transition mt-2 md:mt-0 md:ml-2">Найти</button>
+                    </div>
+                </div>
+
+                <!-- Popular districts quick links -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12 max-w-2xl mx-auto">
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Центральный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Западный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Карасунский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Гидростроителей</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Юбилейный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Фестивальный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Пашковский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Прикубанский</a>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4">
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-white mr-2">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Кэшбек до 10%</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-white mr-2">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Бесплатная юридическая поддержка</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center text-white mr-2">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Ипотека с господдержкой</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	
+	<!-- Unique Offer Section - TON Style -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                            <span class="text-sm font-medium uppercase">Специальное предложение</span>
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-bold mb-4 leading-tight">Платежи в подарок или скидка до 500 000 ₽</h2>
+                        <p class="text-lg text-[#5F6D7E] mb-6">Ищете идеальную квартиру? Мы поможем купить ее еще выгоднее с нашими специальными условиями.</p>
+						<a href="{{ url_for('properties') }}">
+                        <button class="flex items-center gap-2 text-[#0088CC] hover:opacity-80 transition">
+                            <span>Выбрать квартиру</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+						</a>
+                    </div>
+                    <div class="bg-gradient-to-br from-[#0088CC] to-[#00D0EE] p-8 rounded-xl text-white relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+                             alt="Квартира" class="absolute inset-0 w-full h-full object-cover opacity-20">
+                        <div class="relative">
+                            <h3 class="text-lg font-bold mb-4">Как это работает:</h3>
+                            <ol class="space-y-3 list-decimal list-inside">
+                                <li>Выбираете квартиру в нашем каталоге</li>
+                                <li>Оставляете заявку на консультацию</li>
+                                <li>Наш эксперт связывается с вами</li>
+                                <li>Оформляете покупку квартиры</li>
+                                <li>Получаете кэшбек до 500 000 ₽</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Districts Section - TON Style -->
+    <section id="districts" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Районы Краснодара</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Выберите идеальный район</h2>
+                <p class="text-xl text-[#5F6D7E]">Подберите жильё в удобном для вас районе города</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Центральный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">23 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 4.8 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Западный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">18 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 3.2 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Карасунский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">15 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 2.8 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Прикубанский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">12 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 3.5 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Фестивальный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">9 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 2.5 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Пашковский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">14 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 2.9 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Гидростроителей</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">11 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 3.1 млн ₽</p>
+                </div>
+                
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-[#1A1A1A] mb-1">Юбилейный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-2">8 ЖК</p>
+                    <p class="text-sm font-medium text-[#0088CC]">от 4.2 млн ₽</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="{{ url_for('districts') }}" class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white rounded-lg hover:bg-opacity-90 transition">
+                    Посмотреть все районы
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-2">
+                        <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include footer -->
+    {% include 'footer.html' %}
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Typewriter effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const typewriter = document.getElementById('typewriter');
+            const texts = ['с кэшбеком до 500 000 ₽', 'с выгодой для семьи', 'с максимальной экономией'];
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            
+            function type() {
+                const currentText = texts[textIndex];
+                
+                if (isDeleting) {
+                    typewriter.innerHTML = currentText.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typewriter.innerHTML = currentText.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                
+                let typeSpeed = isDeleting ? 50 : 100;
+                
+                if (!isDeleting && charIndex === currentText.length) {
+                    typeSpeed = 2000;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    textIndex = (textIndex + 1) % texts.length;
+                    typeSpeed = 500;
+                }
+                
+                setTimeout(type, typeSpeed);
+            }
+            
+            type();
+        });
+
+        // Dropdown functionality
+        function toggleDropdown(element) {
+            const dropdown = element.closest('.dropdown');
+            const menu = dropdown.querySelector('.dropdown-menu');
+            
+            // Close all other dropdowns
+            document.querySelectorAll('.dropdown-menu.open').forEach(otherMenu => {
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('open');
+                }
+            });
+            
+            // Toggle current dropdown
+            menu.classList.toggle('open');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown-menu.open').forEach(menu => {
+                    menu.classList.remove('open');
+                });
+            }
+        });
+
+        // City selector functionality
+        function changeCity(cityName) {
+            const cityButton = document.querySelector('.dropdown-btn');
+            const cityText = cityButton.childNodes[2];
+            if (cityText) {
+                cityText.textContent = cityName;
+            }
+            // Close dropdown after selection
+            const dropdown = cityButton.closest('.dropdown');
+            dropdown.querySelector('.dropdown-menu').classList.remove('open');
+        }
+    </script>
+</body>
+</html>

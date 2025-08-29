@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://inback_user:inback_password@db:5432/inback_db
+      - SESSION_SECRET=your-super-secret-session-key-32-chars-long
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+    depends_on:
+      - db
+    volumes:
+      - ./static/uploads:/app/static/uploads
+    restart: unless-stopped
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=inback_db
+      - POSTGRES_USER=inback_user
+      - POSTGRES_PASSWORD=inback_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./DATABASE_SCHEMA.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./static:/usr/share/nginx/html/static
+    depends_on:
+      - app
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

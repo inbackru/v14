@@ -1,0 +1,331 @@
+{% extends "manager/base.html" %}
+
+{% block title %}Кабинет менеджера | InBack{% endblock %}
+
+{% block content %}
+<div class="bg-gray-50 py-4">
+    <div class="max-w-7xl mx-auto px-4">
+        <!-- Header -->
+        <div class="mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">Добро пожаловать, {{ manager.first_name }}!</h1>
+            <p class="mt-2 text-gray-600">Управляйте клиентами и создавайте персональные подборки недвижимости</p>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-users text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Активных клиентов</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ manager.assigned_clients|length }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-folder text-green-600"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Подборок создано</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ collections_count }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-paper-plane text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Отправлено</p>
+                        <p class="text-2xl font-bold text-gray-900">{{ sent_collections_count }}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                <div class="flex items-center">
+                    <div class="p-3 bg-gray-100 rounded-lg">
+                        <i class="fas fa-ruble-sign text-[#059669]"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm font-medium text-gray-500">Общий кешбек</p>
+                        <p class="text-2xl font-bold text-gray-900">850К ₽</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <h2 class="text-xl font-semibold text-gray-900 mb-6">Быстрые действия</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="{{ url_for('manager_create_collection') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-plus mr-3"></i>
+                    <span class="font-medium">Создать подборку</span>
+                </a>
+                <a href="{{ url_for('manager_collections') }}" 
+                   class="bg-green-600 hover:bg-green-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-folder-open mr-3"></i>
+                    <span class="font-medium">Мои подборки</span>
+                </a>
+                <a href="{{ url_for('admin_blog_manager') }}" 
+                   class="bg-orange-600 hover:bg-orange-700 text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-newspaper mr-3"></i>
+                    <span class="font-medium">Управление блогом</span>
+                </a>
+                <a href="{{ url_for('manager_analytics') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white p-4 rounded-lg flex items-center transition-colors">
+                    <i class="fas fa-chart-bar mr-3"></i>
+                    <span class="font-medium">Аналитика</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- My Clients -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Мои клиенты</h2>
+                <button onclick="openAddClientModal()" class="text-[#059669] hover:text-[#047857] text-sm font-medium">
+                    <i class="fas fa-plus mr-1"></i>Добавить клиента
+                </button>
+            </div>
+            
+            {% if manager.managed_users %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {% for client in manager.managed_users %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex items-center space-x-3 mb-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-medium text-sm">{{ client.first_name[0] }}{{ client.last_name[0] }}</span>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-gray-900">{{ client.first_name }} {{ client.last_name }}</h3>
+                            <p class="text-sm text-gray-500">{{ client.email }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 text-sm text-gray-600 mb-4">
+                        <div class="flex items-center justify-between">
+                            <span>Подборок получено:</span>
+                            <span class="font-medium">{{ client.received_collections|length }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span>Заявок подано:</span>
+                            <span class="font-medium">{{ client.cashback_applications|length }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <a href="{{ url_for('manager_create_collection') }}?client_id={{ client.id }}" 
+                           class="flex-1 bg-[#059669] hover:bg-[#047857] text-white px-3 py-2 rounded text-sm font-medium text-center transition-colors">
+                            Создать подборку
+                        </a>
+                        <button class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded text-sm font-medium transition-colors">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-8">
+                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-users text-[#059669] text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Клиентов пока нет</h3>
+                <p class="text-gray-600 mb-4">Добавьте первого клиента для работы с подборками</p>
+                <button class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Добавить клиента
+                </button>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Recent Collections -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-semibold text-gray-900">Последние подборки</h2>
+                <a href="{{ url_for('manager_collections') }}" class="text-[#059669] hover:text-[#047857] text-sm font-medium">
+                    Все подборки
+                </a>
+            </div>
+            
+            {% if recent_collections %}
+            <div class="space-y-4">
+                {% for collection in recent_collections %}
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-sm transition-shadow">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-2">
+                                <h3 class="font-medium text-gray-900">{{ collection.title }}</h3>
+                                <span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full
+                                    {% if collection.status == 'Отправлена' %}bg-gray-100 text-gray-700
+                                    {% elif collection.status == 'Просмотрена' %}bg-gray-100 text-green-800
+                                    {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                    {{ collection.status }}
+                                </span>
+                            </div>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-user mr-1"></i>{{ collection.assigned_to.first_name }} {{ collection.assigned_to.last_name }}</span>
+                                <span><i class="fas fa-building mr-1"></i>{{ collection.properties|length }} объектов</span>
+                                <span><i class="fas fa-calendar mr-1"></i>{{ collection.created_at.strftime('%d.%m.%Y') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2 ml-4">
+                            {% if collection.status == 'Черновик' %}
+                            <button onclick="sendCollection({{ collection.id }})" 
+                                    class="bg-[#059669] hover:bg-[#047857] text-white px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Отправить
+                            </button>
+                            {% endif %}
+                            <a href="#" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-sm font-medium transition-colors">
+                                Просмотр
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-8">
+                <div class="mx-auto h-16 w-16 rounded-full bg-gradient-to-r from-blue-100 to-purple-100 flex items-center justify-center mb-4">
+                    <i class="fas fa-folder text-[#059669] text-xl"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Подборок пока нет</h3>
+                <p class="text-gray-600 mb-4">Создайте первую подборку для ваших клиентов</p>
+                <a href="{{ url_for('manager_create_collection') }}" 
+                   class="bg-[#059669] hover:bg-[#047857] text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Создать подборку
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Add Client Modal -->
+<div id="addClientModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-900">Добавить нового клиента</h3>
+                <button onclick="closeAddClientModal()" class="text-gray-400 hover:text-gray-600">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="addClientForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
+                    <input type="text" name="first_name" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Фамилия</label>
+                    <input type="text" name="last_name" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input type="email" name="email" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Телефон</label>
+                    <input type="tel" name="phone" required 
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#059669] focus:border-blue-500"
+                           placeholder="+7 (xxx) xxx-xx-xx">
+                </div>
+                
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="closeAddClientModal()" 
+                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg font-medium transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" 
+                            class="flex-1 bg-[#059669] hover:bg-[#047857] text-white py-2 px-4 rounded-lg font-medium transition-colors">
+                        Добавить клиента
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function sendCollection(collectionId) {
+    if (confirm('Отправить подборку клиенту?')) {
+        fetch(`/api/manager/collection/${collectionId}/send`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                alert('Ошибка: ' + data.error);
+            }
+        })
+        .catch(error => {
+            alert('Ошибка при отправке подборки');
+        });
+    }
+}
+
+function openAddClientModal() {
+    document.getElementById('addClientModal').classList.remove('hidden');
+}
+
+function closeAddClientModal() {
+    document.getElementById('addClientModal').classList.add('hidden');
+    document.getElementById('addClientForm').reset();
+}
+
+// Handle add client form submission
+document.getElementById('addClientForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = {
+        first_name: formData.get('first_name'),
+        last_name: formData.get('last_name'),
+        email: formData.get('email'),
+        phone: formData.get('phone')
+    };
+    
+    fetch('/api/manager/add-client', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        credentials: 'same-origin'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            closeAddClientModal();
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    })
+    .catch(error => {
+        alert('Ошибка при добавлении клиента');
+        console.warn('Error:', error);
+    });
+});
+</script>
+{% endblock %}

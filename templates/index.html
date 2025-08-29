@@ -1,0 +1,2238 @@
+{% extends "base.html" %}
+
+{% block title %}Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack{% endblock %}
+
+{% block description %}Оформите кэшбек до 10% при покупке квартиры в новостройках Краснодара. Бесплатная юридическая проверка сделки, выгодные условия ипотеки. Вернём до 500 000 рублей!{% endblock %}
+
+{% block keywords %}кэшбек за квартиру, новостройки Краснодар, покупка квартиры с кэшбеком, ипотека Краснодар, жильё с возвратом денег{% endblock %}
+
+{% block head %}
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "InBack",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Сервис возврата кэшбека при покупке недвижимости в Краснодаре",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край"
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+    </script>
+    <style>
+        /* Custom styles for index page */
+
+        
+        .loading-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .loading-animation.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+        
+        .animation-delay-200 {
+            animation-delay: 200ms;
+        }
+        
+        .animation-delay-400 {
+            animation-delay: 400ms;
+        }
+        
+        .animation-delay-1000 {
+            animation-delay: 1s;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        /* Typewriter styles now in main CSS file */
+        
+        @keyframes spin-slow {
+            from {
+                transform: rotateY(0deg);
+            }
+            to {
+                transform: rotateY(360deg);
+            }
+        }
+        
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+        
+        /* Partners scrolling animation */
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        
+        .animate-scroll {
+            animation: scroll 30s linear infinite;
+        }
+        
+        .partners-scroll:hover .animate-scroll {
+            animation-play-state: paused;
+        }
+
+    </style>
+    <script>
+        // Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceRange = document.getElementById('priceRange');
+            const priceValue = document.getElementById('priceValue');
+            const cashbackPercentRange = document.getElementById('cashbackPercentRange');
+            const cashbackPercentValue = document.getElementById('cashbackPercentValue');
+            const termRange = document.getElementById('termRange');
+            const termValue = document.getElementById('termValue');
+            const cashbackDisplay = document.getElementById('cashbackDisplay');
+            const cashbackAmount = document.getElementById('cashbackAmount');
+            const monthlyPayment = document.getElementById('monthlyPayment');
+            
+            if (priceRange && priceValue && cashbackPercentRange && cashbackPercentValue && termRange && termValue) {
+                function updateCalculator() {
+                    const price = parseInt(priceRange.value);
+                    const cashbackPercent = parseFloat(cashbackPercentRange.value);
+                    const term = parseInt(termRange.value);
+                    
+                    // Update display values
+                    priceValue.textContent = price.toLocaleString('ru-RU') + ' ₽';
+                    cashbackPercentValue.textContent = cashbackPercent + '%';
+                    cashbackDisplay.textContent = cashbackPercent + '%';
+                    termValue.textContent = term + ' ' + (term === 1 ? 'год' : term < 5 ? 'года' : 'лет');
+                    
+                    // Calculate cashback amount
+                    const cashback = Math.round(price * cashbackPercent / 100);
+                    cashbackAmount.textContent = cashback.toLocaleString('ru-RU') + ' ₽';
+                    
+                    // Calculate monthly payment (simplified calculation with 6% annual rate)
+                    const monthlyRate = 0.06 / 12;
+                    const monthlyPaymentAmount = Math.round(price * monthlyRate * Math.pow(1 + monthlyRate, term * 12) / (Math.pow(1 + monthlyRate, term * 12) - 1));
+                    monthlyPayment.textContent = monthlyPaymentAmount.toLocaleString('ru-RU') + ' ₽';
+                }
+                
+                priceRange.addEventListener('input', updateCalculator);
+                cashbackPercentRange.addEventListener('input', updateCalculator);
+                termRange.addEventListener('input', updateCalculator);
+                
+                // Initial calculation
+                updateCalculator();
+            }
+        });
+    </script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ton: {
+                            blue: '#0088cc',
+                            dark: '#222426',
+                            light: '#f5f5f5',
+                            accent: '#00a3e0',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <!-- Loading Animation -->
+    <div class="loading-animation bg-gradient-to-b from-[#006699] to-[#0088CC]">
+        <div class="relative w-32 h-32">
+            <div class="absolute inset-0 rounded-full border-[10px] border-white/20 animate-ping"></div>
+            <div class="absolute inset-[15px] rounded-full border-[10px] border-white/30 animate-ping animation-delay-200"></div>
+            <div class="absolute inset-[30px] rounded-full border-[10px] border-white/40 animate-ping animation-delay-400"></div>
+            <div class="absolute inset-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-[#0088CC]"></div>
+            </div>
+        </div>
+        <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        <!-- Background decorative elements -->
+        <div class="absolute top-0 left-0 w-full h-full pointer-events-none">
+            <!-- Large gradient circles -->
+            <div class="absolute top-20 -left-20 w-96 h-96 bg-gradient-to-r from-[#0088CC]/3 to-transparent rounded-full blur-3xl"></div>
+            <div class="absolute -top-32 right-0 w-80 h-80 bg-gradient-to-l from-[#006699]/4 to-transparent rounded-full blur-2xl"></div>
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-72 h-72 bg-gradient-to-t from-[#0088CC]/2 to-transparent rounded-full blur-3xl"></div>
+            
+            <!-- Floating geometric shapes -->
+            <div class="absolute top-32 right-1/4 w-4 h-4 bg-[#0088CC]/20 rounded-full animate-pulse"></div>
+            <div class="absolute top-48 left-1/3 w-3 h-3 bg-[#006699]/30 rounded-full animate-pulse animation-delay-1000"></div>
+            <div class="absolute bottom-40 right-1/3 w-5 h-5 bg-[#0088CC]/15 rounded-full animate-pulse animation-delay-2000"></div>
+            <div class="absolute bottom-32 left-1/4 w-2 h-2 bg-[#006699]/25 rounded-full animate-pulse"></div>
+            
+            <!-- Subtle lines and dots pattern -->
+            <div class="absolute top-1/4 left-1/5 w-1 h-12 bg-gradient-to-b from-[#0088CC]/10 to-transparent"></div>
+            <div class="absolute top-1/3 right-1/5 w-1 h-16 bg-gradient-to-b from-[#006699]/8 to-transparent"></div>
+            <div class="absolute bottom-1/3 left-1/2 w-1 h-10 bg-gradient-to-b from-[#0088CC]/12 to-transparent"></div>
+            
+            <!-- Corner accent shapes -->
+            <div class="absolute top-16 left-8 w-8 h-8 border border-[#0088CC]/10 rounded-full"></div>
+            <div class="absolute top-24 right-12 w-6 h-6 border border-[#006699]/15 rounded-full"></div>
+            <div class="absolute bottom-20 left-12 w-10 h-10 border border-[#0088CC]/8 rounded-full"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    <div class="leading-tight">Новостройки в Краснодаре</div>
+                    <div class="typewriter" id="typewriter"></div>
+                </h1>
+                <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-8 px-4 leading-relaxed">Новостройки Краснодара — с выгодой до 500 000 ₽ на квартиру</p>
+                
+                <!-- Search Box -->
+                <div class="search-box bg-white rounded-2xl p-2 shadow-lg max-w-2xl mx-auto mb-6 relative">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="hero-search" placeholder="Поиск ЖК, район, застройщик" class="flex-grow px-4 sm:px-6 py-3 sm:py-4 rounded-xl focus:outline-none text-sm sm:text-base" autocomplete="off">
+                        <button id="hero-search-btn" class="bg-[rgb(0_136_204)] text-white px-4 sm:px-6 py-3 sm:py-4 rounded-xl hover:opacity-90 transition font-medium text-sm sm:text-base">Найти</button>
+                        <!-- Hero Search Suggestions -->
+                        <div id="hero-searchSuggestions" class="hidden absolute top-full left-2 right-2 bg-white border border-gray-200 rounded-xl mt-2 shadow-xl z-[9999] max-h-64 overflow-y-auto">
+                            <!-- Suggestions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular districts quick links -->
+                <div class="flex flex-wrap justify-center gap-2 mb-12 max-w-2xl mx-auto">
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Центральный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Западный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Карасунский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Гидростроителей</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Юбилейный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Фестивальный</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Пашковский</a>
+                    <a href="{{ url_for('properties') }}" class="text-sm text-gray-600 hover:text-[#0088CC] px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full transition">Прикубанский</a>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 sm:gap-4 mb-16">
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Кэшбек до 10%</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Бесплатная юридическая поддержка</span>
+                    </div>
+                    <div class="flex items-center bg-gray-100 rounded-full px-4 py-3 text-sm sm:text-base">
+                        <div class="w-6 h-6 rounded-full bg-[#0088CC] flex items-center justify-center text-white mr-3 flex-shrink-0">
+                            <i class="fas fa-check text-xs"></i>
+                        </div>
+                        <span>Ипотека с господдержкой</span>
+                    </div>
+                </div>
+                
+                <!-- Floating Partners Banner -->
+                <div class="relative overflow-hidden py-6">
+                    <div class="partners-scroll flex items-center space-x-16 animate-scroll">
+                        <!-- First set of partners -->
+                        <div class="flex items-center space-x-16 flex-shrink-0">
+                            <div class="text-gray-500 font-medium whitespace-nowrap">Наши партнеры-застройщики:</div>
+                            
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГК ССК</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">DOGMA</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ТОЧНО</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">AVA GROUP</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЮГСТРОЙИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">НЕОМЕТРИЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ВКБ-НОВОСТРОЙКИ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">МЕТРИКС</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">АЛЬФАСТРОЙИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГИНСИТИ</div>
+                        </div>
+                        
+                        <!-- Duplicate set for seamless loop -->
+                        <div class="flex items-center space-x-16 flex-shrink-0">
+                            <div class="text-gray-500 font-medium whitespace-nowrap">Наши партнеры-застройщики:</div>
+                            
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">СЕМЬЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЕВРОПЕЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГАРАНТИЯ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ЕКАТЕРИНОДАРИНВЕСТ-СТРОЙ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">РОМЕКС ДЕВЕЛОПМЕНТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ДАРСТРОЙ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">БАУИНВЕСТ</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ГК ССК</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">DOGMA</div>
+                            <div class="text-xl font-bold text-gray-800 whitespace-nowrap tracking-wide">ТОЧНО</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Unique Offer Section - TON Style -->
+    <section class="pt-16 pb-20 bg-gradient-to-b from-gray-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                            <span class="text-sm font-medium uppercase">Специальное предложение</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 leading-tight">Платежи в подарок или скидка до 500 000 ₽</h2>
+                        <p class="text-base sm:text-lg text-[#5F6D7E] mb-6">Ищете идеальную квартиру? Мы поможем купить ее еще выгоднее с нашими специальными условиями.</p>
+                        <button onclick="openApplicationModal()" class="flex items-center gap-2 text-[#0088CC] hover:opacity-80 transition">
+                            <span>Узнать кешбек</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="bg-gradient-to-br from-[#0088CC] to-[#006699] p-8 rounded-xl text-white relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-blue-800/20"></div>
+                        <div class="relative">
+                            <div class="flex items-center mb-6">
+                                <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center mr-3 animate-spin-slow">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-bold">Как получить кешбек:</h3>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-sm font-bold">1</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Выбираете квартиру с экспертом</p>
+                                        <p class="text-sm text-blue-100 mt-1">Подбор идеального варианта из проверенных объектов</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-sm font-bold">2</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Просмотр с нашим менеджером</p>
+                                        <p class="text-sm text-blue-100 mt-1">Персональная консультация и осмотр объекта</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-sm font-bold">3</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Регистрация у застройщика</p>
+                                        <p class="text-sm text-blue-100 mt-1">Оформление как клиент InBack для получения бонуса</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-sm font-bold">4</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Оформление сделки</p>
+                                        <p class="text-sm text-blue-100 mt-1">Юридическое сопровождение и поддержка</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-white bg-opacity-30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                                        <span class="text-sm font-bold">5</span>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Получение кешбека до 500 000 ₽</p>
+                                        <p class="text-sm text-blue-100 mt-1">Возврат денежных средств после завершения сделки</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section - Скрыт, может понадобиться позже -->
+    <!-- 
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Процесс получения кешбека</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 leading-tight">Как это работает</h2>
+                <p class="text-base sm:text-lg text-[#5F6D7E]">Простой и понятный процесс получения кешбека при покупке квартиры</p>
+            </div>
+            
+            Остальной код блока скрыт - см. выше
+        </div>
+    </section>
+    -->
+
+    <!-- Минималистичный блок "Как это работает" -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <div class="w-fit mx-auto px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                        <span class="text-sm font-medium uppercase">Как это работает</span>
+                    </div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900">Простой процесс получения кэшбека</h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Всего 4 шага до возврата денежных средств</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+                    <!-- Шаг 1 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">1</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Выбор квартиры</h3>
+                            <p class="text-gray-600 leading-relaxed">Подбираем подходящий вариант из каталога проверенных застройщиков с экспертной поддержкой</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 2 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">2</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Оформление как клиент InBack</h3>
+                            <p class="text-gray-600 leading-relaxed">Регистрируем вас у застройщика для получения специальных условий и кэшбека</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 3 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">3</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Сопровождение сделки</h3>
+                            <p class="text-gray-600 leading-relaxed">Обеспечиваем юридическую поддержку и ведение всех документов до завершения покупки</p>
+                        </div>
+                    </div>
+
+                    <!-- Шаг 4 -->
+                    <div class="flex items-start space-x-4">
+                        <div class="w-12 h-12 bg-[#0088CC] rounded-xl flex items-center justify-center flex-shrink-0">
+                            <span class="text-white font-bold text-lg">4</span>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2 text-gray-900">Получение кэшбека</h3>
+                            <p class="text-gray-600 leading-relaxed">Перечисляем возврат до 500 000 ₽ на вашу банковскую карту после завершения сделки</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Преимущества -->
+                <div class="mt-16 bg-gray-50 rounded-xl p-8">
+                    <div class="grid md:grid-cols-3 gap-8 text-center">
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Юридическая защита</h4>
+                            <p class="text-sm text-gray-600">Полное сопровождение сделки</p>
+                        </div>
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Персональный эксперт</h4>
+                            <p class="text-sm text-gray-600">Индивидуальная работа с клиентом</p>
+                        </div>
+                        <div>
+                            <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 mx-auto">
+                                <svg class="w-6 h-6 text-[#0088CC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <h4 class="font-semibold mb-2 text-gray-900">Гарантированный возврат</h4>
+                            <p class="text-sm text-gray-600">До 500 000 ₽ кэшбека</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <button onclick="openApplicationModal()" class="bg-[#0088CC] hover:bg-opacity-90 text-white px-8 py-3 rounded-lg transition-all duration-300 font-medium">
+                        Узнать размер кэшбека
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Districts Section - TON Style -->
+    <section id="districts" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Районы Краснодара</span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">Выберите идеальный район</h2>
+                <p class="text-lg sm:text-xl text-[#5F6D7E]">Подберите жильё в удобном для вас районе города</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Центральный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Престижный центр города</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 16V12H16M12 8H12.01" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Западный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Новые кварталы</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.99988 12H20.9999M20.9999 12L15.9999 17M20.9999 12L15.9999 7" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 3.00001V21" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Карасунский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Тихий и зеленый</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 10C7 13 9.23858 15 12 15C14.7614 15 17 13 17 10C17 7 14.7614 5 12 5C9.23858 5 7 7 7 10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 15C13.6569 15 15 16.3431 15 18V19H9V18C9 16.3431 10.3431 15 12 15Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Гидростроителей</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Удобная инфраструктура</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 12C7 8.13401 10.134 5 14 5C17.866 5 21 8.13401 21 12C21 15.866 17.866 19 14 19H7V12Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M3 20V14" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Фестивальный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Близко к паркам</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.33653 3.70117L10.7773 1.93856C11.5415 1.54133 12.4585 1.54133 13.2227 1.93856L16.6635 3.70117C17.4369 4.10352 18 4.88255 18 5.75944V10.2406C18 11.1174 17.4369 11.8965 16.6635 12.2988L13.2227 14.0614C12.4585 14.4587 11.5415 14.4587 10.7773 14.0614L7.33653 12.2988C6.56311 11.8965 6 11.1174 6 10.2406V5.75944C6 4.88255 6.56311 4.10352 7.33653 3.70117Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 6.5L12 10L18 6.5" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 22V14" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5.5 10V16C5.5 16.464 5.5 16.696 5.60799 16.898C5.71603 17.1 5.9161 17.2398 6.31623 17.5196L10.7773 20.5614C11.5415 20.9587 12.4585 20.9587 13.2227 20.5614L17.6838 17.5196C18.0839 17.2398 18.284 17.1 18.392 16.898C18.5 16.696 18.5 16.464 18.5 16V10" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Юбилейный</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Современная застройка</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 4H4V8H8V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 4H10V8H14V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 4H16V8H20V4Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 10H4V14H8V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 10H10V14H14V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 10H16V14H20V10Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M8 16H4V20H8V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M14 16H10V20H14V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M20 16H16V20H20V16Z" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Пашковский</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Транспортная доступность</p>
+                    <a href="{{ url_for('properties') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть ЖК</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-4 rounded-lg transition-colors border border-[#E5E9F0]">
+                    <div class="w-12 h-12 bg-[#0088CC] bg-opacity-10 rounded-lg flex items-center justify-center mb-3">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="m3 3 2.5 5H1" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M9 12h6m-3-3v6" stroke="#0088CC" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold mb-1">Все районы</h3>
+                    <p class="text-sm text-[#5F6D7E] mb-3">Полный список районов города</p>
+                    <a href="{{ url_for('districts') }}">
+                    <button class="text-[#0088CC] text-sm font-medium flex items-center gap-1">
+                        <span>Смотреть все</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-center mt-10">
+                <a href="{{ url_for('districts') }}">
+                <button class="bg-[rgb(0_136_204)] hover:bg-[rgb(0_107_160)] text-white px-6 py-3 rounded-full transition flex items-center mx-auto gap-2 font-medium">
+                    <span>Показать все районы</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section - TON Style -->
+    <section id="calculator" class="py-20 bg-[#F5F7FA]">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Ипотечный калькулятор</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Рассчитайте свой кэшбек</h2>
+                <p class="text-xl text-[#5F6D7E]">Узнайте, сколько вы можете получить за покупку квартиры</p>
+            </div>
+            
+            <div class="bg-white rounded-xl p-8 shadow-sm max-w-2xl mx-auto">
+                <!-- Price Input -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-lg font-medium text-[#141A24]">Стоимость квартиры</label>
+                        <div class="text-xl font-bold text-[#0088CC]" id="priceValue">5 000 000 ₽</div>
+                    </div>
+                    <input type="range" min="1000000" max="20000000" step="100000" value="5000000" 
+                        class="w-full h-2 bg-[#E5E9F0] rounded-full appearance-none cursor-pointer" id="priceRange">
+                    <div class="flex justify-between text-[#8C96A0] text-sm mt-2">
+                        <span>1 млн ₽</span>
+                        <span>20 млн ₽</span>
+                    </div>
+                </div>
+                
+                <!-- Cashback Percentage Input -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-lg font-medium text-[#141A24]">Процент кешбека</label>
+                        <div class="text-xl font-bold text-[#0088CC]" id="cashbackPercentValue">2.5%</div>
+                    </div>
+                    <input type="range" min="1" max="5" step="0.1" value="2.5" 
+                        class="w-full h-2 bg-[#E5E9F0] rounded-full appearance-none cursor-pointer" id="cashbackPercentRange">
+                    <div class="flex justify-between text-[#8C96A0] text-sm mt-2">
+                        <span>1%</span>
+                        <span>5%</span>
+                    </div>
+                </div>
+                
+                <!-- Term Input -->
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-lg font-medium text-[#141A24]">Срок кредита</label>
+                        <div class="text-xl font-bold text-[#0088CC]" id="termValue">15 лет</div>
+                    </div>
+                    <input type="range" min="1" max="30" step="1" value="15" 
+                        class="w-full h-2 bg-[#E5E9F0] rounded-full appearance-none cursor-pointer" id="termRange">
+                    <div class="flex justify-between text-[#8C96A0] text-sm mt-2">
+                        <span>1 год</span>
+                        <span>30 лет</span>
+                    </div>
+                </div>
+                
+                <!-- Results -->
+                <div class="bg-[rgb(0_136_204)] rounded-xl p-6 text-white mb-8">
+                    <div class="flex justify-between items-center mb-4">
+                        <span>Кэшбек</span>
+                        <span class="text-xl font-bold" id="cashbackDisplay">2.5%</span>
+                    </div> 
+                    <div class="flex justify-between items-center mb-4">
+                        <span>Сумма кэшбека</span>
+                        <span class="text-xl font-bold" id="cashbackAmount">125 000 ₽</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span>Ежемесячный платеж</span>
+                        <span class="text-xl font-bold" id="monthlyPayment">31 940 ₽</span>
+                    </div>
+                    <div class="text-sm text-white/80 mt-2 text-right">по ставке 6% годовых</div>
+                </div>
+                
+                <button onclick="openApplicationModal()"
+                    class="w-full bg-white text-[rgb(0_136_204)] px-6 py-4 rounded-full font-semibold hover:bg-opacity-90 transition flex items-center justify-center gap-2 text-lg border border-[rgb(0_136_204)]/20">
+                    <span>Оставить заявку</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button> 
+            </div>
+        </div> 
+    </section>
+
+    <!-- Success Stories Section -->
+    <section class="py-20 bg-gradient-to-br from-[#0088CC] to-[#006699] text-white relative overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-32 translate-x-32"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full translate-y-48 -translate-x-48"></div>
+        </div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <div class="max-w-4xl mx-auto text-center mb-16">
+                <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span class="text-sm font-semibold">Истории успеха</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Реальные кейсы наших клиентов</h2>
+                <p class="text-xl text-white/90 max-w-2xl mx-auto">Каждый месяц мы помогаем десяткам семей получить кэшбек при покупке квартир в новостройках Краснодара</p>
+            </div>
+            
+            <!-- Carousel Container -->
+            <div class="relative max-w-6xl mx-auto">
+                <!-- Navigation Arrows -->
+                <button onclick="previousCase()" class="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    </svg>
+                </button>
+                
+                <button onclick="nextCase()" class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </button>
+                
+                <!-- Cases Carousel -->
+                <div class="overflow-hidden">
+                    <div id="casesCarousel" class="flex transition-transform duration-500 ease-in-out">
+                        <!-- Cases will slide individually -->
+                        <!-- Case 1 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400 to-green-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-6">
+                            <div class="relative w-16 h-16 mr-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Анна Михайлова" class="w-full h-full object-cover rounded-full">
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-green-500 rounded-full border-2 border-white flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Анна Михайлова</h3>
+                                <p class="text-gray-600 text-sm">Семья с двумя детьми</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="text-3xl font-bold text-green-600 mb-2">+ 760 000 ₽</div>
+                            <p class="text-gray-600 mb-4">кэшбек получен</p>
+                            
+                            <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">Квартира:</span>
+                                    <span class="font-semibold">3-комн, 116 м²</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">ЖК:</span>
+                                    <span class="font-semibold">«Первое место»</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Стоимость:</span>
+                                    <span class="font-semibold">15.2 млн ₽</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <blockquote class="italic text-gray-700 border-l-4 border-green-500 pl-4 mb-4">
+                            "Не верила, что можно получить такие деньги просто за покупку квартиры. InBack помог получить 760 тысяч рублей кэшбека!"
+                        </blockquote>
+                        
+                        <!-- Client Photo -->
+                        <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=800&h=600&fit=crop&auto=format&q=80', 'Анна Михайлова с менеджером InBack')">
+                            <img src="https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=320&h=200&fit=crop&auto=format&q=80" alt="Анна Михайлова с менеджером InBack" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                            <div class="bg-green-50 p-2 text-center">
+                                <span class="text-xs text-green-700 font-medium">📋 Подписание договора кэшбека</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                ★★★★★
+                            </div>
+                            <span class="text-sm text-gray-600">Февраль 2025</span>
+                        </div>
+                    </div>
+                        </div>
+                        
+                        <!-- Case 2 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-6">
+                            <div class="relative w-16 h-16 mr-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Игорь Соколов" class="w-full h-full object-cover rounded-full">
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Игорь Соколов</h3>
+                                <p class="text-gray-600 text-sm">Молодая пара</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="text-3xl font-bold text-blue-600 mb-2">+ 421 500 ₽</div>
+                            <p class="text-gray-600 mb-4">кэшбек получен</p>
+                            
+                            <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">Квартира:</span>
+                                    <span class="font-semibold">2-комн, 75.7 м²</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">ЖК:</span>
+                                    <span class="font-semibold">«Аврора»</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Стоимость:</span>
+                                    <span class="font-semibold">8.43 млн ₽</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <blockquote class="italic text-gray-700 border-l-4 border-blue-500 pl-4 mb-4">
+                            "Кэшбек стал отличным первоначальным взносом для следующей покупки. Планируем снова работать с InBack!"
+                        </blockquote>
+                        
+                        <!-- Client Photo -->
+                        <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&h=600&fit=crop&auto=format&q=80', 'Игорь Соколов в офисе InBack')">
+                            <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=320&h=200&fit=crop&auto=format&q=80" alt="Игорь Соколов в офисе InBack" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                            <div class="bg-blue-50 p-2 text-center">
+                                <span class="text-xs text-blue-700 font-medium">🤝 Консультация в офисе InBack</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                ★★★★★
+                            </div>
+                            <span class="text-sm text-gray-600">Январь 2025</span>
+                        </div>
+                    </div>
+                        </div>
+                        
+                        <!-- Case 3 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center mb-6">
+                            <div class="relative w-16 h-16 mr-4">
+                                <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Елена Романова" class="w-full h-full object-cover rounded-full">
+                                </div>
+                                <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-purple-500 rounded-full border-2 border-white flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-lg">Елена Романова</h3>
+                                <p class="text-gray-600 text-sm">Инвестор</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="text-3xl font-bold text-purple-600 mb-2">+ 811 300 ₽</div>
+                            <p class="text-gray-600 mb-4">кэшбек получен</p>
+                            
+                            <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">Квартира:</span>
+                                    <span class="font-semibold">4-комн, 109.6 м²</span>
+                                </div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-sm text-gray-600">ЖК:</span>
+                                    <span class="font-semibold">«Солнечный берег»</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-sm text-gray-600">Стоимость:</span>
+                                    <span class="font-semibold">16.2 млн ₽</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <blockquote class="italic text-gray-700 border-l-4 border-purple-500 pl-4 mb-4">
+                            "Покупаю уже третью квартиру через InBack. Каждый раз получаю максимальный кэшбек. Очень профессиональная команда!"
+                        </blockquote>
+                        
+                        <!-- Client Photo -->
+                        <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&h=600&fit=crop&auto=format&q=80', 'Елена Романова получает кэшбек')">
+                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=320&h=200&fit=crop&auto=format&q=80" alt="Елена Романова получает кэшбек" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                            <div class="bg-purple-50 p-2 text-center">
+                                <span class="text-xs text-purple-700 font-medium">💰 Получение кэшбека наличными</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <div class="flex text-yellow-400 mr-2">
+                                ★★★★★
+                            </div>
+                            <span class="text-sm text-gray-600">Декабрь 2024</span>
+                        </div>
+                    </div>
+                        </div>
+                        
+                        <!-- Case 4 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-red-400 to-red-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                                <div class="relative z-10">
+                                    <div class="flex items-center mb-6">
+                                        <div class="relative w-16 h-16 mr-4">
+                                            <div class="w-16 h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Михаил Волков" class="w-full h-full object-cover rounded-full">
+                                            </div>
+                                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-red-500 rounded-full border-2 border-white flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-lg">Михаил Волков</h3>
+                                            <p class="text-gray-600 text-sm">Семья с тремя детьми</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-6">
+                                        <div class="text-3xl font-bold text-red-600 mb-2">+ 634 200 ₽</div>
+                                        <p class="text-gray-600 mb-4">кэшбек получен</p>
+                                        
+                                        <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">Квартира:</span>
+                                                <span class="font-semibold">4-комн, 132 м²</span>
+                                            </div>
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">ЖК:</span>
+                                                <span class="font-semibold">«Династия»</span>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm text-gray-600">Стоимость:</span>
+                                                <span class="font-semibold">12.68 млн ₽</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <blockquote class="italic text-gray-700 border-l-4 border-red-500 pl-4 mb-4">
+                                        "С тремя детьми каждый рубль на счету. Кэшбек от InBack стал отличным подспорьем для обустройства новой квартиры!"
+                                    </blockquote>
+                                    
+                                    <!-- Client Photo -->
+                                    <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format&q=80', 'Михаил Волков с семьей в новой квартире')">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=320&h=200&fit=crop&auto=format&q=80" alt="Михаил Волков с семьей в новой квартире" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                                        <div class="bg-red-50 p-2 text-center">
+                                            <span class="text-xs text-red-700 font-medium">🏠 Семья в новой квартире</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            ★★★★★
+                                        </div>
+                                        <span class="text-sm text-gray-600">Март 2025</span>
+                                    </div>
+                                </div>
+                        </div>
+                        
+                        <!-- Case 5 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                                <div class="relative z-10">
+                                    <div class="flex items-center mb-6">
+                                        <div class="relative w-16 h-16 mr-4">
+                                            <div class="w-16 h-16 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Лариса Козлова" class="w-full h-full object-cover rounded-full">
+                                            </div>
+                                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-teal-500 rounded-full border-2 border-white flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-lg">Лариса Козлова</h3>
+                                            <p class="text-gray-600 text-sm">Молодой специалист</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-6">
+                                        <div class="text-3xl font-bold text-teal-600 mb-2">+ 315 800 ₽</div>
+                                        <p class="text-gray-600 mb-4">кэшбек получен</p>
+                                        
+                                        <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">Квартира:</span>
+                                                <span class="font-semibold">1-комн, 45 м²</span>
+                                            </div>
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">ЖК:</span>
+                                                <span class="font-semibold">«Высота»</span>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm text-gray-600">Стоимость:</span>
+                                                <span class="font-semibold">6.32 млн ₽</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <blockquote class="italic text-gray-700 border-l-4 border-teal-500 pl-4 mb-4">
+                                        "Первая квартира в жизни! Даже не знала про кэшбек, а менеджер InBack все объяснил и помог получить 315 тысяч!"
+                                    </blockquote>
+                                    
+                                    <!-- Client Photo -->
+                                    <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&h=600&fit=crop&auto=format&q=80', 'Лариса Козлова с ключами от новой квартиры')">
+                                        <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?w=320&h=200&fit=crop&auto=format&q=80" alt="Лариса Козлова с ключами от новой квартиры" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                                        <div class="bg-teal-50 p-2 text-center">
+                                            <span class="text-xs text-teal-700 font-medium">🔑 Получение ключей от квартиры</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            ★★★★★
+                                        </div>
+                                        <span class="text-sm text-gray-600">Январь 2025</span>
+                                    </div>
+                                </div>
+                        </div>
+                        
+                        <!-- Case 6 -->
+                        <div class="bg-white rounded-2xl p-8 text-gray-900 relative overflow-hidden group hover:scale-105 transition-transform duration-300 flex-shrink-0 w-full md:w-80 mr-8">
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full -translate-y-16 translate-x-16 opacity-10"></div>
+                                <div class="relative z-10">
+                                    <div class="flex items-center mb-6">
+                                        <div class="relative w-16 h-16 mr-4">
+                                            <div class="w-16 h-16 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden">
+                                                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=64&h=64&fit=crop&crop=face&auto=format&q=80" alt="Андрей Титов" class="w-full h-full object-cover rounded-full">
+                                            </div>
+                                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-orange-500 rounded-full border-2 border-white flex items-center justify-center">
+                                                <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-bold text-lg">Андрей Титов</h3>
+                                            <p class="text-gray-600 text-sm">Предприниматель</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-6">
+                                        <div class="text-3xl font-bold text-orange-600 mb-2">+ 958 400 ₽</div>
+                                        <p class="text-gray-600 mb-4">кэшбек получен</p>
+                                        
+                                        <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">Квартира:</span>
+                                                <span class="font-semibold">3-комн, 142 м²</span>
+                                            </div>
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="text-sm text-gray-600">ЖК:</span>
+                                                <span class="font-semibold">«Гармония»</span>
+                                            </div>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-sm text-gray-600">Стоимость:</span>
+                                                <span class="font-semibold">19.17 млн ₽</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <blockquote class="italic text-gray-700 border-l-4 border-orange-500 pl-4 mb-4">
+                                        "Инвестиционная покупка окупилась еще до сдачи объекта. Почти миллион кэшбека - это серьезные деньги!"
+                                    </blockquote>
+                                    
+                                    <!-- Client Photo -->
+                                    <div class="mb-4 rounded-xl overflow-hidden cursor-pointer" onclick="openPhotoModal('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=600&fit=crop&auto=format&q=80', 'Андрей Титов подписывает договор')">
+                                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=320&h=200&fit=crop&auto=format&q=80" alt="Андрей Титов подписывает договор" class="w-full h-32 object-cover hover:scale-105 transition-transform duration-300">
+                                        <div class="bg-orange-50 p-2 text-center">
+                                            <span class="text-xs text-orange-700 font-medium">📝 Подписание инвестиционного договора</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex items-center">
+                                        <div class="flex text-yellow-400 mr-2">
+                                            ★★★★★
+                                        </div>
+                                        <span class="text-sm text-gray-600">Ноябрь 2024</span>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                
+
+
+                
+                <!-- Carousel Indicators -->
+                <div class="flex justify-center mt-8 gap-2">
+                    <button onclick="goToSlide(0)" class="carousel-dot w-3 h-3 rounded-full bg-white hover:bg-white/80 transition-all" data-slide="0"></button>
+                    <button onclick="goToSlide(1)" class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all" data-slide="1"></button>
+                    <button onclick="goToSlide(2)" class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all" data-slide="2"></button>
+                    <button onclick="goToSlide(3)" class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all" data-slide="3"></button>
+                    <button onclick="goToSlide(4)" class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all" data-slide="4"></button>
+                    <button onclick="goToSlide(5)" class="carousel-dot w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 transition-all" data-slide="5"></button>
+                </div>
+            </div>
+            
+            <!-- Statistics Block -->
+            <div class="mt-16 bg-white/10 backdrop-blur-sm rounded-2xl p-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold mb-2">347</div>
+                        <div class="text-white/80">довольных клиентов</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold mb-2">156 млн</div>
+                        <div class="text-white/80">₽ кэшбека выплачено</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold mb-2">5.2%</div>
+                        <div class="text-white/80">средний кэшбек</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl md:text-4xl font-bold mb-2">30</div>
+                        <div class="text-white/80">ЖК-партнеров</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <div class="text-center mt-12">
+                <button onclick="openApplicationModal()" class="bg-white text-[#0088CC] hover:bg-gray-100 px-8 py-4 rounded-full font-bold text-lg transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 inline-flex items-center gap-3">
+                    <span>Получить свой кэшбек</span>
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                </button>
+                <p class="text-white/80 mt-4">Бесплатная консультация • Без скрытых комиссий</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section - Matching Style -->
+    <section class="py-20 bg-[#141A24] text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6">Более 10 000 доступных квартир в Краснодаре</h2>
+                <p class="text-xl md:text-2xl text-[#A3ADBA] mb-8 max-w-2xl mx-auto">На большинстве сайтов недвижимости отображается лишь 10-30% доступных вариантов, но мы предоставляем доступ к 95% новостроек.</p>
+                <a href="{{ url_for('properties') }}">
+                <button class="bg-gradient-to-r from-[#0088CC] to-[#00D0EE] text-white hover:opacity-90 px-10 py-4 rounded-full font-semibold text-lg transition mb-12 inline-flex items-center gap-2">
+                    Показать предложения
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert Help Section - TON Style -->
+    <section class="py-20 bg-[#F5F7FA]">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="w-fit px-4 py-1 bg-black bg-opacity-5 rounded-full mb-6">
+                    <span class="text-sm font-medium uppercase">Поддержка</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 leading-tight">Персональная помощь от наших экспертов</h2>
+                <p class="text-lg text-[#5F6D7E] mb-8">Наши специалисты помогут вам подобрать идеальное жильё и получить максимальный кэшбек. Услуга абсолютно бесплатна — без комиссий и скрытых платежей.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8 mb-12">
+                    <!-- Card 1 -->
+                    <div class="bg-white rounded-xl overflow-hidden border border-[#E5E9F0]">
+                        <div class="h-48 bg-[#F0F7FF] flex items-center justify-center">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M32 42C37.5228 42 42 37.5228 42 32C42 26.4772 37.5228 22 32 22C26.4772 22 22 26.4772 22 32C22 37.5228 26.4772 42 32 42Z" stroke="#0088CC" stroke-width="2"/>
+                                <path d="M32 38C33.1046 38 34 37.1046 34 36C34 34.8954 33.1046 34 32 34C30.8954 34 30 34.8954 30 36C30 37.1046 30.8954 38 32 38Z" fill="#0088CC"/>
+                                <path d="M34 32C34 33.1046 33.1046 34 32 34C30.8954 34 30 33.1046 30 32C30 30.8954 30.8954 30 32 30C33.1046 30 34 30.8954 34 32Z" fill="#0088CC"/>
+                                <path d="M42 22C41.4696 22 40.9609 22.2107 40.5858 22.5858C40.2107 22.9609 40 23.4696 40 24C40 24.5304 40.2107 25.0391 40.5858 25.4142C40.9609 25.7893 41.4696 26 42 26C42.5304 26 43.0391 25.7893 43.4142 25.4142C43.7893 25.0391 44 24.5304 44 24C44 23.4696 43.7893 22.9609 43.4142 22.5858C43.0391 22.2107 42.5304 22 42 22Z" fill="#0088CC"/>
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3">Консультация</h3>
+                            <p class="text-[#5F6D7E] mb-4">Ответим на все ваши вопросы и подберём лучшие варианты недвижимости</p>
+                            <a onclick="openApplicationModal()" class="text-[#0088CC] hover:underline font-medium flex items-center cursor-pointer">
+                                <span>Проконсультироваться</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1">
+                                    <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Card 2 -->
+                    <div class="bg-white rounded-xl overflow-hidden border border-[#E5E9F0]">
+                        <div class="h-48 bg-[#F0F7FF] flex items-center justify-center">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M38 50H26C24.4087 50 22.8826 49.3679 21.7574 48.2426C20.6321 47.1174 20 45.5913 20 44V20C20 18.4087 20.6321 16.8826 21.7574 15.7574C22.8826 14.6321 24.4087 14 26 14H38C39.5913 14 41.1174 14.6321 42.2426 15.7574C43.3679 16.8826 44 18.4087 44 20V44C44 45.5913 43.3679 47.1174 42.2426 48.2426C41.1174 49.3679 39.5913 50 38 50Z" stroke="#0088CC" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M32 42C37.5228 42 42 37.5228 42 32C42 26.4772 37.5228 22 32 22C26.4772 22 22 26.4772 22 32C22 37.5228 26.4772 42 32 42Z" stroke="#0088CC" stroke-width="2"/>
+                                <path d="M32 38C33.1046 38 34 37.1046 34 36C34 34.8954 33.1046 34 32 34C30.8954 34 30 34.8954 30 36C30 37.1046 30.8954 38 32 38Z" fill="#0088CC"/>
+                                <path d="M28 28C28.5523 28 29 27.5523 29 27C29 26.4477 28.5523 26 28 26C27.4477 26 27 26.4477 27 27C27 27.5523 27.4477 28 28 28Z" fill="#0088CC"/>
+                                <path d="M32 28C32.5523 28 33 27.5523 33 27C33 26.4477 32.5523 26 32 26C31.4477 26 31 26.4477 31 27C31 27.5523 31.4477 28 32 28Z" fill="#0088CC"/>
+                                <path d="M36 28C36.5523 28 37 27.5523 37 27C37 26.4477 36.5523 26 36 26C35.4477 26 35 26.4477 35 27C35 27.5523 35.4477 28 36 28Z" fill="#0088CC"/>
+                            </svg>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-semibold mb-3">Подбор жилья</h3>
+                            <p class="text-[#5F6D7E] mb-4">Подберём квартиры по вашим критериям, организуем просмотры</p>
+                            <a onclick="openApplicationModal()" class="text-[#0088CC] hover:underline font-medium flex items-center cursor-pointer">
+                                <span>Подобрать жильё</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1">
+                                    <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="openApplicationModal()" class="bg-[#0088CC] text-white px-8 py-4 rounded-full hover:opacity-90 transition flex items-center mx-auto gap-2 font-semibold">
+                        <span>Начать с экспертом</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section id="properties" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-6">10 000+ квартир в базе</h2>
+            <p class="text-xl text-gray-600 text-center mb-12">Подберите идеальную квартиру в Краснодаре с максимальным кэшбэком</p>
+            
+            <!-- Advanced Search Form -->
+            <div class="bg-gradient-to-r from-white to-blue-50 rounded-2xl shadow-xl p-8 mb-16 border border-blue-100 relative z-10">
+                <!-- Main Search Bar -->
+                <div class="mb-6">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-6">
+                            <i class="fas fa-search text-[#0088CC] text-lg"></i>
+                        </div>
+                        <input type="text" id="property-search" placeholder="Поиск по ЖК, застройщику, району или адресу..." 
+                               class="w-full pl-16 pr-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC] outline-none bg-white shadow-sm transition-all duration-300"
+                               autocomplete="off">
+                        <!-- Search Suggestions -->
+                        <div id="property-searchSuggestions" class="hidden absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-xl mt-2 shadow-xl z-[9999] max-h-64 overflow-y-auto">
+                            <!-- Suggestions will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Quick Filters -->
+                    <div class="flex-1">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <!-- Rooms Filter -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-bed text-[#0088CC] mr-2"></i>
+                                    Комнаты
+                                </label>
+                                <div class="flex gap-1">
+                                    <button class="room-btn flex-1 px-2 py-2 text-sm border border-gray-300 rounded-lg hover:bg-[#0088CC] hover:text-white hover:border-[#0088CC] transition-all" data-rooms="0">С</button>
+                                    <button class="room-btn flex-1 px-2 py-2 text-sm border border-gray-300 rounded-lg hover:bg-[#0088CC] hover:text-white hover:border-[#0088CC] transition-all" data-rooms="1">1</button>
+                                    <button class="room-btn flex-1 px-2 py-2 text-sm border border-gray-300 rounded-lg hover:bg-[#0088CC] hover:text-white hover:border-[#0088CC] transition-all" data-rooms="2">2</button>
+                                    <button class="room-btn flex-1 px-2 py-2 text-sm border border-gray-300 rounded-lg hover:bg-[#0088CC] hover:text-white hover:border-[#0088CC] transition-all" data-rooms="3">3</button>
+                                    <button class="room-btn flex-1 px-2 py-2 text-sm border border-gray-300 rounded-lg hover:bg-[#0088CC] hover:text-white hover:border-[#0088CC] transition-all" data-rooms="4+">4+</button>
+                                </div>
+                            </div>
+                            
+                            <!-- District Filter -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-map-marker-alt text-[#0088CC] mr-2"></i>
+                                    Район
+                                </label>
+                                <div class="relative">
+                                    <select id="district-filter" class="w-full py-2 pl-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none appearance-none bg-white text-sm">
+                                        <option value="">Любой</option>
+                                        <option value="Центральный">Центральный</option>
+                                        <option value="Западный">Западный</option>
+                                        <option value="Карасунский">Карасунский</option>
+                                        <option value="Прикубанский">Прикубанский</option>
+                                        <option value="Юбилейный">Юбилейный</option>
+                                    </select>
+                                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                        <i class="fas fa-chevron-down text-gray-400 text-xs"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Price Range -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-ruble-sign text-[#0088CC] mr-2"></i>
+                                    Цена от, млн ₽
+                                </label>
+                                <input type="number" id="price-from" min="1" max="50" placeholder="2.5" 
+                                       class="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                    <i class="fas fa-ruble-sign text-[#0088CC] mr-2"></i>
+                                    Цена до, млн ₽
+                                </label>
+                                <input type="number" id="price-to" min="1" max="50" placeholder="15" 
+                                       class="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flex items-end gap-3">
+                        <button id="toggleAdvancedFilters" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-3 rounded-xl transition-all font-medium">
+                            <i class="fas fa-sliders-h text-sm"></i>
+                            <span>Больше фильтров</span>
+                        </button>
+                        
+                        <button onclick="applyFilters()" class="bg-gradient-to-r from-[#0088CC] to-[#00A0E6] text-white px-8 py-3 rounded-xl hover:shadow-lg transition-all shadow-md flex items-center gap-2 font-semibold">
+                            <i class="fas fa-search"></i>
+                            <span>Найти квартиру</span>
+                        </button>
+                    </div>
+                </div>
+                
+                
+            </div>
+            
+            <!-- Advanced Filters Panel (separate container) -->
+            <div id="advancedFiltersPanel" class="hidden bg-white rounded-xl shadow-lg p-6 mb-8 border border-gray-200 relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Developer -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-building text-[#0088CC] mr-2"></i>
+                                Застройщик
+                            </label>
+                            <select id="developer-filter" class="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none appearance-none bg-white">
+                                <option value="">Любой</option>
+                                <option value="ГК «Адмирал»">ГК «Адмирал»</option>
+                                <option value="СК «Морская волна»">СК «Морская волна»</option>
+                                <option value="ЖК «Солнечный»">ЖК «Солнечный»</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Area -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-expand-arrows-alt text-[#0088CC] mr-2"></i>
+                                Площадь, м²
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="number" placeholder="от 30" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                                <input type="number" placeholder="до 120" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                            </div>
+                        </div>
+                        
+                        <!-- Floor -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-layer-group text-[#0088CC] mr-2"></i>
+                                Этаж
+                            </label>
+                            <div class="flex gap-2">
+                                <input type="number" placeholder="от 1" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                                <input type="number" placeholder="до 25" class="flex-1 py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none text-sm">
+                            </div>
+                        </div>
+                        
+                        <!-- Mortgage -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                                <i class="fas fa-percent text-[#0088CC] mr-2"></i>
+                                Ипотека
+                            </label>
+                            <select class="w-full py-2 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0088CC] outline-none appearance-none bg-white">
+                                <option value="">Любые условия</option>
+                                <option value="available">Ипотека доступна</option>
+                                <option value="preferential">Льготная ипотека</option>
+                                <option value="family">Семейная ипотека</option>
+                                <option value="it">IT-ипотека</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 flex gap-3 justify-end">
+                        <button onclick="resetAllFilters()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-2 rounded-lg transition-all font-medium">
+                            <i class="fas fa-times mr-2"></i>
+                            Сбросить фильтры
+                        </button>
+                        <button onclick="applyFilters()" class="bg-[#0088CC] text-white px-6 py-2 rounded-lg hover:bg-[#0077BB] transition-all font-medium">
+                            <i class="fas fa-check mr-2"></i>
+                            Применить фильтры
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Featured Properties -->
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {% for property in featured_properties %}
+                <div class="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100">
+                    <!-- Image Carousel with gradient overlay -->
+                    <div class="relative h-56 overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-10"></div>
+                        
+                        <!-- Carousel Container -->
+                        <div class="carousel-container w-full h-56 relative" data-property-id="{{ property.id }}">
+                            {% set gallery = property.gallery or [property.image] %}
+                            {% for image in gallery %}
+                            <div class="carousel-slide absolute inset-0 transition-opacity duration-300 {% if not loop.first %}opacity-0{% endif %}" data-slide="{{ loop.index0 }}">
+                                <img src="{{ image }}" alt="{{ property.title }} - фото {{ loop.index }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                            </div>
+                            {% endfor %}
+                            
+                            <!-- Navigation arrows -->
+                            {% if gallery|length > 1 %}
+                            <button class="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/30 text-white rounded-full flex items-center justify-center hover:bg-black/50 transition z-30 opacity-0 group-hover:opacity-100" onclick="prevImageSlide(this)">
+                                <i class="fas fa-chevron-left text-sm"></i>
+                            </button>
+                            <button class="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/30 text-white rounded-full flex items-center justify-center hover:bg-black/50 transition z-30 opacity-0 group-hover:opacity-100" onclick="nextImageSlide(this)">
+                                <i class="fas fa-chevron-right text-sm"></i>
+                            </button>
+                            
+                            <!-- Dots indicator -->
+                            <div class="absolute bottom-14 left-1/2 transform -translate-x-1/2 flex gap-1 z-30 opacity-0 group-hover:opacity-100 transition">
+                                {% for image in gallery %}
+                                <button class="w-2 h-2 rounded-full bg-white/50 hover:bg-white/80 transition {% if loop.first %}bg-white/80{% endif %}" onclick="goToImageSlide(this, {{ loop.index0 }})"></button>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <!-- Top badges -->
+                        <div class="absolute top-4 left-4 z-20">
+                            <div class="bg-gradient-to-r from-[#FF5722] to-[#FF7043] text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-md">
+                                <i class="fas fa-fire mr-1"></i>
+                                Кэшбек до {% if property.price %}{{ "{:,.0f}".format(property.price * 0.05) }}{% else %}5%{% endif %} ₽
+                            </div>
+                        </div>
+                        
+                        <div class="absolute top-4 right-4 z-20">
+                            <button class="w-10 h-10 bg-white/20 backdrop-blur-sm text-white rounded-full flex items-center justify-center hover:bg-white/30 transition-all duration-300 hover:scale-110">
+                                <i class="fas fa-heart text-sm"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Bottom price overlay -->
+                        <div class="absolute bottom-4 left-4 right-4 z-20">
+                            <div class="bg-white/90 backdrop-blur-sm rounded-xl p-3">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <div class="text-xs text-gray-500 line-through">
+                                            {% if property.price %}
+                                                {{ "{:,.0f}".format(property.price + (property.price * 0.05)) }} ₽
+                                            {% else %}
+                                                По запросу
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-lg font-bold text-gray-900">
+                                            {% if property.price %}
+                                                {{ "{:,.0f}".format(property.price) }} ₽
+                                            {% else %}
+                                                По запросу
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-xs text-gray-500">
+                                            {% if property.price and property.area %}
+                                                {{ "{:,.0f}".format(property.price // property.area) }} ₽/м²
+                                            {% else %}
+                                                По запросу
+                                            {% endif %}
+                                        </div>
+                                        <div class="text-xs font-medium text-[#0088CC]">
+                                            {% if property.price %}
+                                                Экономия {{ "{:,.0f}".format(property.price * 0.05) }} ₽
+                                            {% else %}
+                                                Кэшбек до 5%
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Info -->
+                    <div class="p-6">
+                        <div class="mb-4">
+                            <a href="{{ url_for('property_detail', property_id=property.id) }}" class="text-lg font-bold hover:text-[#0088CC] transition-colors duration-300 line-clamp-2 block">
+                                {{ property.rooms }}-комн. квартира, {{ property.area }} м², {{ property.floor }}/{{ property.total_floors }} эт.
+                            </a>
+                            <div class="flex items-center mt-2 text-gray-600">
+                                <i class="fas fa-map-marker-alt text-[#0088CC] mr-2"></i>
+                                <span class="text-sm">Краснодар, {{ property.district }}{% if property.location %}, {{ property.location }}{% endif %}{% if property.address %}, {{ property.address }}{% endif %}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Property features -->
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-[#0088CC]">
+                                    {% if property.price and property.area %}
+                                        {{ "{:,.0f}".format(property.price // property.area) }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </div>
+                                <div class="text-xs text-gray-500 uppercase tracking-wide">₽/м²</div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-3 text-center">
+                                <div class="text-2xl font-bold text-[#0088CC]">{{ property.completion_date[:4] if property.completion_date else 'Q2 2025' }}</div>
+                                <div class="text-xs text-gray-500 uppercase tracking-wide">год сдачи</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Developer info -->
+                        <div class="border-t pt-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-[#0088CC] to-[#00A0E6] rounded-full mr-3 flex items-center justify-center text-white text-xs font-bold">
+                                        {{ property.developer[:2].upper() }}
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900 text-sm">{{ property.developer[:20] }}{% if property.developer|length > 20 %}...{% endif %}</div>
+                                        <div class="text-xs text-gray-500">Сдача {{ property.completion_date }}</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs text-[#0088CC] font-medium bg-blue-50 px-2 py-1 rounded">
+                                        {% if property.get('mortgage_available', False) %}Ипотека от 3.5%{% else %}В рассрочку{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Action buttons -->
+                        <div class="mt-6 flex gap-3">
+                            <a href="{{ url_for('property_detail', property_id=property.id) }}" class="flex-1 bg-[#0088CC] text-white py-3 px-4 rounded-lg font-medium text-center hover:bg-[#0077BB] transition-colors duration-300">
+                                Подробнее
+                            </a>
+                            <button onclick="openApplicationModal()" class="bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition-colors duration-300">
+                                Заявка
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+
+            <!-- Show More Button -->
+            <div class="text-center max-w-6xl mx-auto">
+                <a href="{{ url_for('properties') }}">
+                    <button class="bg-[rgb(0_136_204)] text-white px-8 py-3 rounded-lg hover:opacity-90 transition-all shadow-md">
+                        Показать все {{ featured_properties|length * 50 }}+ квартир
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section - Added from original file -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Наша команда</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Эксперты по недвижимости</h2>
+                <p class="text-xl text-[#5F6D7E]">Профессионалы с многолетним опытом в сфере недвижимости Краснодара</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-6 rounded-xl transition-colors border border-[#E5E9F0] text-center">
+                    <div class="w-24 h-24 rounded-full bg-[#0088CC] bg-opacity-10 mx-auto mb-4 flex items-center justify-center">
+                        <div class="text-3xl font-bold text-[#0088CC]">АП</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Александр Петров</h3>
+                    <p class="text-[#0088CC] mb-3">Основатель и CEO</p>
+                    <p class="text-[#5F6D7E]">15 лет в недвижимости, эксперт по инвестициям в новостройки</p>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-6 rounded-xl transition-colors border border-[#E5E9F0] text-center">
+                    <div class="w-24 h-24 rounded-full bg-[#0088CC] bg-opacity-10 mx-auto mb-4 flex items-center justify-center">
+                        <div class="text-3xl font-bold text-[#0088CC]">ЕС</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Елена Смирнова</h3>
+                    <p class="text-[#0088CC] mb-3">Финансовый директор</p>
+                    <p class="text-[#5F6D7E]">Специалист по ипотечным программам и налоговым вычетам</p>
+                </div>
+                <div class="bg-[#F8F9FA] hover:bg-[#F0F7FF] p-6 rounded-xl transition-colors border border-[#E5E9F0] text-center">
+                    <div class="w-24 h-24 rounded-full bg-[#0088CC] bg-opacity-10 mx-auto mb-4 flex items-center justify-center">
+                        <div class="text-3xl font-bold text-[#0088CC]">ДИ</div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-1">Дмитрий Иванов</h3>
+                    <p class="text-[#0088CC] mb-3">Юрист</p>
+                    <p class="text-[#5F6D7E]">Опыт сопровождения сделок с недвижимостью более 10 лет</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Typewriter animation - exact copy from original inback.ru
+        function setupTypewriter() {
+            const el = document.getElementById('typewriter');
+            if (!el) return;
+            
+            const changingTexts = [
+                "кэшбеком до 5%",
+                "платежами в подарок", 
+                "выгодой до 500 000 ₽"
+            ];
+            
+            let part = '';
+            const staticPrefix = 'с ';
+            let textIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100;
+            let deletingSpeed = 50;
+            let pauseAfterType = 2000;
+            let pauseAfterDelete = 500;
+
+            function tick() {
+                const fullChangingText = changingTexts[textIndex];
+                
+                if (isDeleting) {
+                    part = fullChangingText.substring(0, part.length - 1);
+                    el.innerHTML = '<span class="typewriter-text gradient-text">' + part + '</span>';
+                    
+                    if (part === '') {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % changingTexts.length;
+                        setTimeout(tick, pauseAfterDelete);
+                    } else {
+                        setTimeout(tick, deletingSpeed);
+                    }
+                } else {
+                    part = fullChangingText.substring(0, part.length + 1);
+                    el.innerHTML = '<span class="typewriter-text">' + staticPrefix + part + '</span>';
+                    
+                    if (part === fullChangingText) {
+                        isDeleting = true;
+                        setTimeout(tick, pauseAfterType);
+                    } else {
+                        setTimeout(tick, typingSpeed);
+                    }
+                }
+            }
+
+            el.innerHTML = '<span class="typewriter-text gradient-text">' + staticPrefix + changingTexts[0].substring(0, 1) + '</span>';
+            setTimeout(tick, 1000);
+        }
+
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading-animation').style.display = 'none';
+            }, 2000);
+            
+            // Start typewriter effect
+            setupTypewriter();
+        });
+
+        // Calculator functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const priceRange = document.getElementById('priceRange');
+            const termRange = document.getElementById('termRange');
+            const priceValue = document.getElementById('priceValue');
+            const termValue = document.getElementById('termValue');
+            const cashbackAmount = document.getElementById('cashbackAmount');
+            const monthlyPayment = document.getElementById('monthlyPayment');
+
+            function updateCalculator() {
+                const price = parseInt(priceRange.value);
+                const term = parseInt(termRange.value);
+                
+                // Update display values
+                priceValue.textContent = (price / 1000000).toFixed(1).replace('.', ' ') + ' млн ₽';
+                termValue.textContent = term + ' ' + (term === 1 ? 'год' : term < 5 ? 'года' : 'лет');
+                
+                // Calculate cashback (2.5% of price)
+                const cashback = price * 0.025;
+                cashbackAmount.textContent = Math.round(cashback).toLocaleString() + ' ₽';
+                
+                // Calculate monthly payment (6% annual rate)
+                const monthlyRate = 0.06 / 12;
+                const numPayments = term * 12;
+                const payment = (price * monthlyRate * Math.pow(1 + monthlyRate, numPayments)) / 
+                               (Math.pow(1 + monthlyRate, numPayments) - 1);
+                monthlyPayment.textContent = Math.round(payment).toLocaleString() + ' ₽';
+            }
+
+            if (priceRange && termRange) {
+                priceRange.addEventListener('input', updateCalculator);
+                termRange.addEventListener('input', updateCalculator);
+                updateCalculator(); // Initial calculation
+            }
+
+            // Advanced Filters Toggle
+            const toggleAdvancedFilters = document.getElementById('toggleAdvancedFilters');
+            const advancedFiltersPanel = document.getElementById('advancedFiltersPanel');
+            
+            if (toggleAdvancedFilters && advancedFiltersPanel) {
+                toggleAdvancedFilters.addEventListener('click', function() {
+                    advancedFiltersPanel.classList.toggle('hidden');
+                    
+                    // Update button text
+                    const buttonText = toggleAdvancedFilters.querySelector('span');
+                    if (advancedFiltersPanel.classList.contains('hidden')) {
+                        buttonText.textContent = 'Больше фильтров';
+                    } else {
+                        buttonText.textContent = 'Скрыть фильтры';
+                    }
+                });
+            }
+            
+            // Room buttons selection
+            const roomButtons = document.querySelectorAll('.room-btn');
+            roomButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    roomButtons.forEach(btn => {
+                        btn.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                        btn.classList.add('border-gray-300', 'hover:bg-[#0088CC]', 'hover:text-white', 'hover:border-[#0088CC]');
+                    });
+                    
+                    this.classList.add('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                    this.classList.remove('border-gray-300');
+                });
+            });
+
+            // Removed old search suggestions code - now using smart search below
+        });
+        
+        // Filter Functions - Updated for smart search
+        function applyFilters() {
+            const search = document.getElementById('property-search').value;
+            const district = document.getElementById('district-filter')?.value || '';
+            const priceFrom = document.getElementById('price-from')?.value || '';
+            const priceTo = document.getElementById('price-to')?.value || '';
+            const developer = document.getElementById('developer-filter')?.value || '';
+            
+            // Get selected room count
+            const selectedRoom = document.querySelector('.room-btn.bg-\\[\\#0088CC\\]');
+            const rooms = selectedRoom ? selectedRoom.dataset.rooms : '';
+            
+            // Build query parameters
+            const params = new URLSearchParams();
+            if (search) params.set('search', search);
+            if (district) params.set('district', district);
+            if (rooms) params.set('rooms', rooms);
+            if (priceFrom) params.set('price_min', priceFrom * 1000000);
+            if (priceTo) params.set('price_max', priceTo * 1000000);
+            if (developer) params.set('developer', developer);
+            
+            // Redirect to properties page with filters
+            window.location.href = '/properties?' + params.toString();
+        }
+        
+        function resetAllFilters() {
+            // Reset all form fields
+            document.getElementById('property-search').value = '';
+            document.getElementById('district-filter').value = '';
+            document.getElementById('price-from').value = '';
+            document.getElementById('price-to').value = '';
+            
+            if (document.getElementById('developer-filter')) {
+                document.getElementById('developer-filter').value = '';
+            }
+            
+            // Reset room buttons
+            document.querySelectorAll('.room-btn').forEach(btn => {
+                btn.classList.remove('bg-[#0088CC]', 'text-white', 'border-[#0088CC]');
+                btn.classList.add('border-gray-300');
+            });
+            
+            // Hide suggestions
+            const suggestions = document.getElementById('property-searchSuggestions');
+            if (suggestions) {
+                suggestions.classList.add('hidden');
+            }
+        }
+
+        // Smart search functionality - Simple working version
+        setTimeout(function() {
+            console.log('Initializing search...');
+            const searchInput = document.getElementById('property-search');
+            const suggestionsDiv = document.getElementById('property-searchSuggestions');
+            
+            console.log('Elements found:', !!searchInput, !!suggestionsDiv);
+            
+            if (searchInput && suggestionsDiv) {
+                let searchTimeout;
+                
+                searchInput.addEventListener('input', function() {
+                    const query = this.value.trim();
+                    console.log('Search query:', query);
+                    
+                    clearTimeout(searchTimeout);
+                    
+                    if (query.length < 2) {
+                        suggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    searchTimeout = setTimeout(function() {
+                        fetch('/api/smart-search-suggestions?q=' + encodeURIComponent(query))
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('API response:', data);
+                                showSuggestions(data.suggestions || []);
+                            })
+                            .catch(error => {
+                                console.warn('Search API unavailable:', error.message);
+                                suggestionsDiv.classList.add('hidden');
+                            });
+                    }, 300);
+                });
+                
+                // Enter key support
+                searchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (this.value.trim()) {
+                            window.location.href = '/properties?search=' + encodeURIComponent(this.value.trim());
+                        }
+                    }
+                });
+                
+                function showSuggestions(suggestions) {
+                    if (!suggestions.length) {
+                        suggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    let html = '';
+                    suggestions.forEach(function(s) {
+                        html += '<div class="flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" onclick="chooseSuggestion(\'' + s.type + '\', \'' + s.value + '\', \'' + encodeURIComponent(s.text) + '\')">';
+                        html += '<div class="flex items-center">';
+                        html += '<i class="fas fa-search text-[#0088CC] mr-3"></i>';
+                        html += '<span class="text-gray-900">' + s.text + '</span>';
+                        html += '</div>';
+                        html += '<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">' + s.category + '</span>';
+                        html += '</div>';
+                    });
+                    
+                    suggestionsDiv.innerHTML = html;
+                    suggestionsDiv.classList.remove('hidden');
+                    console.log('Suggestions shown');
+                }
+                
+                // Global function for suggestion selection
+                window.chooseSuggestion = function(type, value, text) {
+                    const decodedText = decodeURIComponent(text);
+                    searchInput.value = decodedText;
+                    suggestionsDiv.classList.add('hidden');
+                    
+                    // Redirect with filters
+                    const url = '/properties?search=' + encodeURIComponent(decodedText) + '&' + type + '=' + encodeURIComponent(value);
+                    window.location.href = url;
+                };
+            }
+        }, 1000);
+        
+        // Initialize hero search (top search bar)
+        setTimeout(function() {
+            console.log('Initializing hero search...');
+            const heroSearchInput = document.getElementById('hero-search');
+            const heroSuggestionsDiv = document.getElementById('hero-searchSuggestions');
+            const heroSearchBtn = document.getElementById('hero-search-btn');
+            
+            console.log('Hero elements found:', !!heroSearchInput, !!heroSuggestionsDiv, !!heroSearchBtn);
+            
+            if (heroSearchInput && heroSuggestionsDiv) {
+                let heroTimeout;
+                
+                // Input handler for hero search
+                heroSearchInput.addEventListener('input', function() {
+                    const query = this.value.trim();
+                    console.log('Hero search query:', query);
+                    
+                    clearTimeout(heroTimeout);
+                    
+                    if (query.length < 2) {
+                        heroSuggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    heroTimeout = setTimeout(function() {
+                        fetch('/api/smart-search-suggestions?q=' + encodeURIComponent(query))
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Hero API response:', data);
+                                showHeroSuggestions(data.suggestions || []);
+                            })
+                            .catch(error => {
+                                console.warn('Hero search API unavailable:', error.message);
+                                heroSuggestionsDiv.classList.add('hidden');
+                            });
+                    }, 300);
+                });
+                
+                // Enter key support for hero search
+                heroSearchInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (this.value.trim()) {
+                            window.location.href = '/properties?search=' + encodeURIComponent(this.value.trim());
+                        }
+                    }
+                });
+                
+                // Hero search button click
+                if (heroSearchBtn) {
+                    heroSearchBtn.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        if (heroSearchInput.value.trim()) {
+                            window.location.href = '/properties?search=' + encodeURIComponent(heroSearchInput.value.trim());
+                        }
+                    });
+                }
+                
+                function showHeroSuggestions(suggestions) {
+                    if (!suggestions.length) {
+                        heroSuggestionsDiv.classList.add('hidden');
+                        return;
+                    }
+                    
+                    let html = '';
+                    suggestions.forEach(function(s) {
+                        html += '<div class="flex items-center justify-between p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0" onclick="chooseHeroSuggestion(\'' + s.type + '\', \'' + s.value + '\', \'' + encodeURIComponent(s.text) + '\')">';
+                        html += '<div class="flex items-center">';
+                        html += '<i class="fas fa-search text-[#0088CC] mr-3"></i>';
+                        html += '<span class="text-gray-900">' + s.text + '</span>';
+                        html += '</div>';
+                        html += '<span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">' + s.category + '</span>';
+                        html += '</div>';
+                    });
+                    
+                    heroSuggestionsDiv.innerHTML = html;
+                    heroSuggestionsDiv.classList.remove('hidden');
+                    console.log('Hero suggestions shown');
+                }
+                
+                // Global function for hero suggestion selection
+                window.chooseHeroSuggestion = function(type, value, text) {
+                    const decodedText = decodeURIComponent(text);
+                    heroSearchInput.value = decodedText;
+                    heroSuggestionsDiv.classList.add('hidden');
+                    
+                    // Redirect with filters
+                    const url = '/properties?search=' + encodeURIComponent(decodedText) + '&' + type + '=' + encodeURIComponent(value);
+                    window.location.href = url;
+                };
+                
+                // Click outside to hide hero suggestions
+                document.addEventListener('click', function(e) {
+                    if (!heroSearchInput.contains(e.target) && !heroSuggestionsDiv.contains(e.target)) {
+                        heroSuggestionsDiv.classList.add('hidden');
+                    }
+                });
+            }
+        }, 1200);
+        
+        // Fix the "Найти квартиру" button
+        setTimeout(function() {
+            console.log('Fixing find button...');
+            const findButtons = document.querySelectorAll('button[onclick="applyFilters()"]');
+            console.log('Found buttons:', findButtons.length);
+            
+            findButtons.forEach(function(button, index) {
+                console.log('Fixing button', index);
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    console.log('Apply filters called');
+                    applyFilters();
+                    return false;
+                };
+            });
+        }, 500);
+        
+        // True infinite carousel - clone slides after DOM is loaded
+        let currentSlide = 0;
+        const totalSlides = 6;
+        const slideWidth = 352; // w-80 + mr-8 = 320px + 32px = 352px
+        let isTransitioning = false;
+        let clonesAdded = false;
+        
+        // Initialize infinite carousel by cloning slides
+        function initInfiniteCarousel() {
+            if (clonesAdded) return;
+            
+            const carousel = document.getElementById('casesCarousel');
+            const originalSlides = carousel.children;
+            
+            // Clone all original slides and append to the end
+            for (let i = 0; i < totalSlides; i++) {
+                const clone = originalSlides[i].cloneNode(true);
+                carousel.appendChild(clone);
+            }
+            clonesAdded = true;
+        }
+        
+        function nextCase() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            
+            const carousel = document.getElementById('casesCarousel');
+            currentSlide++;
+            
+            // Smooth transition
+            carousel.style.transition = 'transform 0.5s ease-in-out';
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            
+            setTimeout(() => {
+                if (currentSlide >= totalSlides) {
+                    // Reset to start without animation
+                    carousel.style.transition = 'none';
+                    currentSlide = 0;
+                    carousel.style.transform = `translateX(0px)`;
+                    
+                    setTimeout(() => {
+                        carousel.style.transition = 'transform 0.5s ease-in-out';
+                    }, 50);
+                }
+                isTransitioning = false;
+                updateDots();
+            }, 500);
+        }
+        
+        function previousCase() {
+            if (isTransitioning) return;
+            isTransitioning = true;
+            
+            const carousel = document.getElementById('casesCarousel');
+            
+            if (currentSlide === 0) {
+                // Jump to last slide position instantly
+                carousel.style.transition = 'none';
+                currentSlide = totalSlides - 1;
+                carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                
+                setTimeout(() => {
+                    carousel.style.transition = 'transform 0.5s ease-in-out';
+                    isTransitioning = false;
+                    updateDots();
+                }, 50);
+            } else {
+                currentSlide--;
+                carousel.style.transition = 'transform 0.5s ease-in-out';
+                carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                
+                setTimeout(() => {
+                    isTransitioning = false;
+                    updateDots();
+                }, 500);
+            }
+        }
+        
+        function goToSlide(slideIndex) {
+            if (isTransitioning) return;
+            const carousel = document.getElementById('casesCarousel');
+            currentSlide = slideIndex;
+            
+            carousel.style.transition = 'transform 0.5s ease-in-out';
+            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+            
+            updateDots();
+        }
+        
+        function updateDots() {
+            const dots = document.querySelectorAll('.carousel-dot');
+            const displayIndex = currentSlide % totalSlides;
+            
+            dots.forEach((dot, index) => {
+                if (index === displayIndex) {
+                    dot.classList.remove('bg-white/50');
+                    dot.classList.add('bg-white');
+                } else {
+                    dot.classList.remove('bg-white');
+                    dot.classList.add('bg-white/50');
+                }
+            });
+        }
+        
+        // Initialize infinite carousel when page loads
+        setTimeout(initInfiniteCarousel, 1000);
+        
+        // Auto-advance carousel every 6 seconds (faster for individual slides)
+        setInterval(nextCase, 6000);
+        
+        // Photo Modal Functions
+        function openPhotoModal(imageSrc, caption) {
+            const modal = document.getElementById('photoModal');
+            const modalPhoto = document.getElementById('modalPhoto');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            modalPhoto.src = imageSrc;
+            modalPhoto.alt = caption;
+            modalCaption.textContent = caption;
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closePhotoModal() {
+            const modal = document.getElementById('photoModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+        
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePhotoModal();
+            }
+        });
+        
+    </script>
+    
+    <!-- Photo Modal -->
+    <div id="photoModal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-75 flex items-center justify-center p-4" onclick="closePhotoModal()">
+        <div class="relative max-w-4xl max-h-full" onclick="event.stopPropagation()">
+            <button onclick="closePhotoModal()" class="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+            <img id="modalPhoto" src="" alt="" class="max-w-full max-h-full rounded-lg shadow-2xl">
+            <div id="modalCaption" class="text-white text-center mt-4 text-lg font-medium"></div>
+        </div>
+    </div>
+
+{% endblock %}

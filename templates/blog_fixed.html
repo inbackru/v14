@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+
+{% block title %}Блог о недвижимости | InBack.ru{% endblock %}
+{% block description %}Экспертные статьи о покупке квартир в Краснодаре, получении кэшбека и оформлении ипотеки{% endblock %}
+{% block keywords %}блог недвижимость, кэшбек квартиры, ипотека Краснодар, новостройки советы{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+    <nav aria-label="Breadcrumb" class="flex">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+            <li class="inline-flex items-center">
+                <a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                    </svg>
+                    Главная
+                </a>
+            </li>
+            <li aria-current="page">
+                <div class="flex items-center">
+                    <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path>
+                    </svg>
+                    <span class="text-gray-500 ml-1 md:ml-2">Блог</span>
+                </div>
+            </li>
+        </ol>
+    </nav>
+</div>
+
+<!-- Hero Section -->
+<section class="py-16 bg-gradient-to-br from-[#0088CC] to-blue-800">
+    <div class="container mx-auto px-4 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            Блог о недвижимости
+        </h1>
+        <p class="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            Экспертные статьи о покупке квартир в Краснодаре, получении кэшбека и оформлении ипотеки
+        </p>
+        
+        <!-- Search -->
+        <div class="max-w-md mx-auto">
+            <form method="GET" action="{{ url_for('blog') }}">
+                <div class="relative">
+                    <input type="text" 
+                           name="search"
+                           id="blog-search" 
+                           value="{{ search_query }}"
+                           placeholder="Поиск по статьям..."
+                           class="w-full px-4 py-3 pr-12 text-gray-900 bg-white rounded-lg border-0 shadow-lg focus:ring-2 focus:ring-blue-300 focus:outline-none">
+                    <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-orange-500 hover:text-[#0088CC]">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    {% if category_filter %}
+                    <input type="hidden" name="category" value="{{ category_filter }}">
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-12">
+    <div class="grid lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow-sm p-6 sticky top-4">
+                <h2 class="text-xl font-semibold mb-6">Категории статей</h2>
+                
+                <!-- Categories -->
+                <div class="space-y-2">
+                    <a href="{{ url_for('blog') }}" class="category-filter flex items-center justify-between p-3 rounded-lg {% if not category_filter %}bg-blue-50 text-[#006699] border border-blue-200{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                        <span class="font-medium">Все статьи</span>
+                        <span class="bg-gray-100 text-[#006699] px-2 py-1 rounded-full text-xs">{{ total_articles }}</span>
+                    </a>
+                    
+                    {% for category in categories %}
+                    <a href="{{ url_for('blog', category=category.slug) }}" 
+                       class="category-filter flex items-center justify-between p-3 rounded-lg {% if category_filter == category.slug %}bg-blue-50 text-[#006699] border border-blue-200{% else %}hover:bg-gray-50 text-gray-700{% endif %}">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-blue-400 rounded-full mr-3"></div>
+                            <span>{{ category.name }}</span>
+                        </div>
+                        <span class="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+                            {{ category.articles_count or 0 }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+                
+                <!-- Featured Articles -->
+                {% if featured_articles %}
+                <div class="mt-8">
+                    <h3 class="text-lg font-semibold mb-4">Рекомендуемые статьи</h3>
+                    <div class="space-y-4">
+                        {% for article in featured_articles %}
+                        <div class="border-b border-gray-100 pb-4 last:border-b-0">
+                            <h4 class="font-medium text-sm mb-2">
+                                <a href="{{ url_for('blog_article', slug=article.slug) }}" class="text-gray-900 hover:text-[#0088CC]">
+                                    {{ article.title }}
+                                </a>
+                            </h4>
+                            <div class="text-xs text-gray-500">
+                                {{ article.created_at.strftime('%d.%m.%Y') }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Articles Grid -->
+        <div class="lg:col-span-3">
+            <div class="mb-6">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold text-gray-900">
+                        {% if category_filter %}
+                            {% for cat in categories if cat.slug == category_filter %}
+                                {{ cat.name }}
+                            {% endfor %}
+                        {% elif search_query %}
+                            Результаты поиска "{{ search_query }}"
+                        {% else %}
+                            Последние статьи
+                        {% endif %}
+                    </h2>
+                    <span class="text-gray-500 text-sm">
+                        {% if articles %}
+                            {{ articles|length }} из {{ total_articles }} статей
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div id="articles-container" class="grid md:grid-cols-2 gap-6">
+                {% for article in articles %}
+                <article class="article-card bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
+                    {% if article.featured_image %}
+                    <div class="aspect-video bg-gray-200 overflow-hidden">
+                        <img src="{{ article.featured_image }}" alt="{{ article.title }}" class="w-full h-full object-cover">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="p-6">
+                        <div class="flex items-center mb-3">
+                            <span class="px-2 py-1 text-xs font-medium bg-gray-100 text-[#006699] rounded-full">
+                                {{ article.category }}
+                            </span>
+                            <span class="text-sm text-gray-500 ml-auto">
+                                {{ article.created_at.strftime('%d.%m.%Y') }}
+                            </span>
+                        </div>
+                        
+                        <h3 class="text-lg font-semibold mb-2 line-clamp-2">
+                            <a href="{{ url_for('blog_article', slug=article.slug) }}" class="text-gray-900 hover:text-[#0088CC] transition-colors">
+                                {{ article.title }}
+                            </a>
+                        </h3>
+                        
+                        {% if article.excerpt %}
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ article.excerpt|striptags }}</p>
+                        {% endif %}
+                        
+                        <div class="flex items-center justify-between text-sm text-gray-500">
+                            <div class="flex items-center space-x-4">
+                                <span><i class="fas fa-clock mr-1"></i>{{ article.reading_time or 5 }} мин</span>
+                                <span><i class="fas fa-eye mr-1"></i>{{ article.views_count or 0 }}</span>
+                            </div>
+                            <a href="{{ url_for('blog_article', slug=article.slug) }}" class="text-[#0088CC] hover:text-[#006699] font-medium">
+                                Читать →
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                {% else %}
+                <div class="col-span-full text-center py-12">
+                    <i class="fas fa-newspaper text-gray-400 text-5xl mb-4"></i>
+                    <h3 class="text-lg font-medium text-gray-900 mb-2">Статьи не найдены</h3>
+                    <p class="text-gray-600">
+                        {% if search_query %}
+                            По запросу "{{ search_query }}" ничего не найдено. Попробуйте изменить поисковый запрос.
+                        {% elif category_filter %}
+                            В данной категории пока нет статей.
+                        {% else %}
+                            Статьи ещё не добавлены.
+                        {% endif %}
+                    </p>
+                    {% if search_query or category_filter %}
+                    <a href="{{ url_for('blog') }}" class="mt-4 inline-block text-[#0088CC] hover:text-[#006699] font-medium">
+                        ← Посмотреть все статьи
+                    </a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination -->
+            {% if total_pages > 1 %}
+            <div class="flex justify-center mt-12">
+                <nav class="flex space-x-2">
+                    {% if current_page > 1 %}
+                    <a href="{{ url_for('blog', page=current_page-1, search=search_query, category=category_filter) }}" 
+                       class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                        ← Предыдущая
+                    </a>
+                    {% endif %}
+                    
+                    {% for page_num in range(1, total_pages + 1) %}
+                        {% if page_num == current_page %}
+                        <span class="px-3 py-2 bg-[#0088CC] text-white rounded-lg">{{ page_num }}</span>
+                        {% elif page_num <= current_page + 2 and page_num >= current_page - 2 %}
+                        <a href="{{ url_for('blog', page=page_num, search=search_query, category=category_filter) }}" 
+                           class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                            {{ page_num }}
+                        </a>
+                        {% elif page_num == 1 or page_num == total_pages %}
+                        <a href="{{ url_for('blog', page=page_num, search=search_query, category=category_filter) }}" 
+                           class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                            {{ page_num }}
+                        </a>
+                        {% elif page_num == current_page + 3 or page_num == current_page - 3 %}
+                        <span class="px-3 py-2 text-gray-400">...</span>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if current_page < total_pages %}
+                    <a href="{{ url_for('blog', page=current_page+1, search=search_query, category=category_filter) }}" 
+                       class="px-3 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg">
+                        Следующая →
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

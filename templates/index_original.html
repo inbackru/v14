@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кэшбек за новостройки в Краснодаре до 500 000 ₽ | Inback</title>
+    <meta property="og:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽ | InBack">
+    <meta property="og:description" content="Вернём до 10% стоимости квартиры при покупке новостройки в Краснодаре. Бесплатная юридическая поддержка.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://inback.ru/">
+    <meta property="og:image" content="https://inback.ru/social-preview.jpg">
+    <meta property="og:site_name" content="InBack">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Кэшбек за новостройки в Краснодаре до 500 000 ₽">
+    <meta name="description" content="Оформите кэшбек до 10% при покупке квартиры в новостройках Краснодара. Бесплатная юридическая проверка сделки, выгодные условия ипотеки. Вернём до 500 000 рублей!">
+    <meta name="keywords" content="кэшбек за квартиру, новостройки Краснодар, покупка квартиры с кэшбеком, ипотека Краснодар, жильё с возвратом денег">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #006699 0%, #0088CC 100%); }
+        .gradient-text { background: linear-gradient(135deg, #006699 0%, #0088CC 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        /* Header Dropdown Styles */
+        .dropdown { position: relative; }
+        .dropdown-btn {
+            background: none; border: none; cursor: pointer;
+            color: #374151; font-weight: 500; font-size: 0.9rem;
+            display: flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        .dropdown-btn:hover { background-color: #F3F4F6; color: #111827; }
+        .dropdown-btn svg:first-child { width: 1.25rem; height: 1.25rem; }
+        .dropdown-btn svg:last-child { width: 1rem; height: 1rem; transition: transform 0.2s ease; }
+        .dropdown.open .dropdown-btn svg:last-child { transform: rotate(180deg); }
+        
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 0; z-index: 50;
+            background: white; border: 1px solid #E5E7EB; border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            min-width: 12rem; padding: 0.5rem 0;
+            opacity: 0; visibility: hidden; transform: translateY(-10px);
+            transition: all 0.2s ease;
+        }
+        .dropdown.open .dropdown-menu {
+            opacity: 1; visibility: visible; transform: translateY(0);
+        }
+        
+        .dropdown-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem 1rem; color: #374151; text-decoration: none;
+            font-size: 0.875rem; transition: all 0.2s ease;
+        }
+        .dropdown-item:hover { background-color: #F3F4F6; color: #111827; }
+        .dropdown-item svg { width: 1rem; height: 1rem; color: #6B7280; }
+        
+        /* Loading Animation */
+        .loader-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #006699 0%, #0088CC 100%);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999; transition: opacity 0.5s ease;
+        }
+        .loader { width: 120px; height: 120px; position: relative; }
+        .spinner { width: 100%; height: 100%; border: 3px solid rgba(255,255,255,0.3);
+                   border-top: 3px solid white; border-radius: 50%;
+                   animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        /* Typewriter Effect */
+        .typewriter { border-right: 2px solid white; animation: blink 1s infinite; }
+        @keyframes blink { 0%, 50% { border-color: white; } 51%, 100% { border-color: transparent; } }
+        
+        .hero-gradient { background: linear-gradient(135deg, #F0F7FF 0%, #E8F4FD 50%, #F8FAFC 100%); }
+    </style>
+</head>
+<body class="bg-white font-['Inter',sans-serif] text-gray-900 leading-relaxed">
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loader-container">
+        <div class="loader">
+            <div class="spinner"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full gradient-bg"></div>
+            </div>
+        </div>
+        <div class="mt-8 text-white text-xl font-semibold">Загружаем лучшие предложения...</div>
+    </div>
+
+    <!-- Include Header -->
+    {% include 'header_original.html' %}
+
+    <!-- Hero Section -->
+    <section class="hero-gradient py-20">
+        <div class="container mx-auto px-4 text-center">
+            <div class="w-fit mx-auto px-6 py-1.5 bg-white bg-opacity-80 rounded-full mb-6">
+                <span class="text-sm font-medium text-[#0088CC]">💰 Кэшбек до 500 000 ₽</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                <span class="typewriter" id="typewriter">Вернём деньги за</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-600 mb-10">Новостройки Краснодара — с выгодой до 500 000 ₽ на квартиру</p>
+            
+            <!-- Quick Search -->
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl p-6 shadow-lg">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <select class="p-3 border border-gray-300 rounded-lg">
+                        <option>Тип недвижимости</option>
+                        <option>Квартира</option>
+                        <option>Апартаменты</option>
+                    </select>
+                    <select class="p-3 border border-gray-300 rounded-lg">
+                        <option>Комнат</option>
+                        <option>Студия</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                    <select class="p-3 border border-gray-300 rounded-lg">
+                        <option>Район</option>
+                        <option>Центральный</option>
+                        <option>Западный</option>
+                        <option>Карасунский</option>
+                    </select>
+                    <input type="text" placeholder="Цена до, млн ₽" class="p-3 border border-gray-300 rounded-lg">
+                </div>
+                <button class="w-full gradient-bg text-white py-3 rounded-lg font-semibold text-lg hover:opacity-90 transition">
+                    🔍 Найти квартиру с кэшбеком
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Properties Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <div class="w-fit mx-auto px-6 py-1.5 bg-[#F0F7FF] rounded-full mb-4">
+                    <span class="text-sm font-medium text-[#0088CC]">Лучшие предложения</span>
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold mb-4">Топ квартир с кэшбеком</h2>
+                <p class="text-xl text-[#5F6D7E]">Отобрали лучшие варианты с максимальным возвратом денег</p>
+            </div>
+            
+            <!-- Property Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for property in featured_properties %}
+                <div class="bg-white rounded-xl overflow-hidden border border-[#E5E9F0] hover:shadow-md transition-all">
+                    <!-- Image -->
+                    <div class="h-48 bg-[#F0F7FF] relative group overflow-hidden">
+                        <img src="https://via.placeholder.com/400x200/0088CC/FFFFFF?text={{ property.rooms }}к+{{ property.area }}м²" 
+                             alt="{{ property.title }}" class="w-full h-full object-cover">
+                        <!-- Badges -->
+                        <div class="absolute top-3 left-3">
+                            <span class="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                                Кэшбек {{ "{:,}".format(property.cashback|int).replace(',', ' ') }} ₽
+                            </span>
+                        </div>
+                        <div class="absolute top-3 right-3">
+                            <button class="w-8 h-8 bg-white bg-opacity-80 rounded-full flex items-center justify-center hover:bg-opacity-100 transition">
+                                <i class="far fa-heart text-gray-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Content -->
+                    <div class="p-6">
+                        <div class="flex items-center gap-2 text-sm text-[#5F6D7E] mb-2">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ property.district }}</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">{{ property.title }}</h3>
+                        <p class="text-[#5F6D7E] mb-4">{{ property.rooms }}-комн, {{ property.area }} м², {{ property.floor }}/{{ property.total_floors }} эт</p>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <div class="text-2xl font-bold text-[#141A24]">
+                                    {{ "{:,}".format(property.price|int).replace(',', ' ') }} ₽
+                                </div>
+                                <div class="text-sm text-[#5F6D7E]">
+                                    {{ "{:,}".format((property.price / property.area)|int).replace(',', ' ') }} ₽/м²
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-lg font-semibold text-green-600">
+                                    +{{ "{:,}".format(property.cashback|int).replace(',', ' ') }} ₽
+                                </div>
+                                <div class="text-xs text-[#5F6D7E]">кэшбек</div>
+                            </div>
+                        </div>
+                        
+                        <a href="{{ url_for('property_detail', property_id=property.id) }}">
+                            <button class="w-full bg-[#0088CC] text-white py-2 rounded-lg hover:bg-[#006699] transition font-medium">
+                                Подробнее
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="{{ url_for('properties') }}">
+                    <button class="bg-[rgb(0_136_204)] hover:bg-[rgb(0_107_160)] text-white px-6 py-3 rounded-full transition flex items-center mx-auto gap-2 font-medium">
+                        <span>Показать все квартиры</span>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.5 3.5L14 8M14 8L9.5 12.5M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include Footer -->
+    {% include 'footer_original.html' %}
+
+    <!-- Scripts -->
+    <script>
+        // Loading screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loadingScreen').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loadingScreen').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Typewriter effect
+        const words = ['Вернём деньги за', 'Кэшбек до 500К за', 'Выгода до 10% за'];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriter = document.getElementById('typewriter');
+
+        function type() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                typewriter.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriter.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+            }
+
+            setTimeout(type, isDeleting ? 50 : 100);
+        }
+
+        setTimeout(type, 2000);
+
+        // Dropdown functionality
+        function toggleDropdown(button) {
+            const dropdown = button.closest('.dropdown');
+            const isOpen = dropdown.classList.contains('open');
+            
+            // Close all dropdowns
+            document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+            
+            // Toggle current dropdown
+            if (!isOpen) {
+                dropdown.classList.add('open');
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('open'));
+            }
+        });
+    </script>
+</body>
+</html>

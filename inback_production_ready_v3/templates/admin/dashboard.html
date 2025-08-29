@@ -1,0 +1,279 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Дашборд - Админ панель | InBack{% endblock %}
+{% block page_title %}Дашборд{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="bg-gradient-to-r from-[#1e40af] to-indigo-700 rounded-xl p-6 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold mb-2">Добро пожаловать, {{ admin.full_name }}!</h1>
+                <p class="text-blue-100">Обзор системы InBack на {{ current_date.strftime('%d.%m.%Y') }}</p>
+            </div>
+            <div class="hidden md:block">
+                <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                    <i class="fas fa-chart-line text-3xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-gray-100 rounded-lg">
+                    <i class="fas fa-users text-[#1e40af] text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Всего пользователей</h3>
+                    <p class="text-2xl font-bold text-gray-900">{{ "{:,}".format(stats.total_users).replace(',', ' ') }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-[#1e40af] text-sm font-medium">
+                    <i class="fas fa-arrow-up"></i> {{ stats.active_users }} активных
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-gray-100 rounded-lg">
+                    <i class="fas fa-user-tie text-green-600 text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Менеджеров</h3>
+                    <p class="text-2xl font-bold text-gray-900">{{ stats.total_managers }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-[#1e40af] text-sm font-medium">
+                    <i class="fas fa-check"></i> {{ stats.active_managers }} активных
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-gray-100 rounded-lg">
+                    <i class="fas fa-file-alt text-[#1e40af] text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Заявки на кешбек</h3>
+                    <p class="text-2xl font-bold text-gray-900">{{ stats.total_applications }}</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-yellow-500 text-sm font-medium">
+                    <i class="fas fa-clock"></i> {{ stats.pending_applications }} ожидают
+                </span>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center">
+                <div class="p-2 bg-gray-100 rounded-lg">
+                    <i class="fas fa-ruble-sign text-[#1e40af] text-xl"></i>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-sm font-medium text-gray-500">Кешбек выплачено</h3>
+                    <p class="text-2xl font-bold text-gray-900">{{ "{:,}".format(stats.total_cashback_paid).replace(',', ' ') }} ₽</p>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-[#1e40af] text-sm font-medium">
+                    <i class="fas fa-check"></i> {{ "{:,}".format(stats.total_cashback_approved).replace(',', ' ') }} ₽ одобрено
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts and Analytics -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Applications Status Chart -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Статус заявок на кешбек</h3>
+                <i class="fas fa-chart-pie text-gray-400"></i>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-600">На рассмотрении</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-medium">{{ stats.pending_applications }}</span>
+                        <div class="w-32 bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: {{ (stats.pending_applications / stats.total_applications * 100) if stats.total_applications > 0 else 0 }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-green-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-600">Одобрено</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-medium">{{ stats.approved_applications }}</span>
+                        <div class="w-32 bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: {{ (stats.approved_applications / stats.total_applications * 100) if stats.total_applications > 0 else 0 }}%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded mr-3"></div>
+                        <span class="text-sm text-gray-600">Выплачено</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-sm font-medium">{{ stats.paid_applications }}</span>
+                        <div class="w-32 bg-gray-200 rounded-full h-2 mt-1">
+                            <div class="bg-blue-500 h-2 rounded-full" style="width: {{ (stats.paid_applications / stats.total_applications * 100) if stats.total_applications > 0 else 0 }}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900">Быстрые действия</h3>
+                <i class="fas fa-bolt text-gray-400"></i>
+            </div>
+            <div class="space-y-3">
+                <a href="{{ url_for('admin_create_manager') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="p-2 bg-gray-100 rounded-lg mr-3">
+                        <i class="fas fa-user-plus text-green-600"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Создать менеджера</p>
+                        <p class="text-sm text-gray-500">Добавить нового менеджера</p>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('admin_create_post') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="p-2 bg-gray-100 rounded-lg mr-3">
+                        <i class="fas fa-edit text-[#1e40af]"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Создать статью</p>
+                        <p class="text-sm text-gray-500">Написать новую статью в блог</p>
+                    </div>
+                </a>
+
+                <a href="{{ url_for('admin_cashback_analytics') }}" 
+                   class="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                    <div class="p-2 bg-gray-100 rounded-lg mr-3">
+                        <i class="fas fa-chart-bar text-[#1e40af]"></i>
+                    </div>
+                    <div>
+                        <p class="font-medium text-gray-900">Аналитика кешбека</p>
+                        <p class="text-sm text-gray-500">Подробная статистика выплат</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <!-- Recent Applications -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900">Последние заявки на кешбек</h3>
+                    <a href="#" class="text-[#1e40af] hover:text-[#1d4ed8] text-sm font-medium">
+                        Смотреть все
+                    </a>
+                </div>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% for application in recent_applications[:5] %}
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ application.user.profile_image }}" alt="">
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium text-gray-900">{{ application.user.full_name }}</p>
+                                    <p class="text-sm text-gray-500">{{ application.property_type }} • {{ "{:,}".format(application.cashback_amount).replace(',', ' ') }} ₽</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full
+                                {% if application.status == 'На рассмотрении' %}bg-gray-100 text-yellow-800
+                                {% elif application.status == 'Одобрена' %}bg-gray-100 text-green-800
+                                {% elif application.status == 'Выплачена' %}bg-gray-100 text-gray-700
+                                {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {{ application.status }}
+                            </span>
+                            <span class="text-xs text-gray-400">{{ application.created_at.strftime('%d.%m') }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if recent_applications|length == 0 %}
+                <div class="px-6 py-8 text-center">
+                    <i class="fas fa-inbox text-gray-300 text-3xl mb-2"></i>
+                    <p class="text-gray-500">Пока нет заявок</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Recent Users -->
+        <div class="bg-white rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-gray-900">Новые пользователи</h3>
+                    <a href="{{ url_for('admin_users') }}" class="text-[#1e40af] hover:text-[#1d4ed8] text-sm font-medium">
+                        Смотреть все
+                    </a>
+                </div>
+            </div>
+            <div class="divide-y divide-gray-200">
+                {% for user in recent_users[:5] %}
+                <div class="px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0">
+                                <img class="h-8 w-8 rounded-full object-cover" src="{{ user.profile_image }}" alt="">
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm font-medium text-gray-900">{{ user.full_name }}</p>
+                                <p class="text-sm text-gray-500">{{ user.email }}</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <span class="inline-flex px-2 py-1 text-xs font-medium rounded-full
+                                {% if user.is_verified %}bg-gray-100 text-green-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                {% if user.is_verified %}Подтвержден{% else %}Не подтвержден{% endif %}
+                            </span>
+                            <span class="text-xs text-gray-400">{{ user.created_at.strftime('%d.%m') if user.created_at else 'Не указано' }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {% if recent_users|length == 0 %}
+                <div class="px-6 py-8 text-center">
+                    <i class="fas fa-users text-gray-300 text-3xl mb-2"></i>
+                    <p class="text-gray-500">Пока нет пользователей</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

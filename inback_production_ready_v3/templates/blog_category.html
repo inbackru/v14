@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{{ category.name }} | Блог inback</title>
+    <meta content="{{ category.description }}" name="description"/>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        ton: {
+                            blue: '#0088cc',
+                            dark: '#222426',
+                            light: '#f5f5f5',
+                            accent: '#00a3e0',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+
+        // Dropdown functionality
+        function toggleDropdown(button) {
+            const dropdown = button.closest('.dropdown');
+            const allDropdowns = document.querySelectorAll('.dropdown');
+            
+            // Close all other dropdowns
+            allDropdowns.forEach(d => {
+                if (d !== dropdown) {
+                    d.classList.remove('show');
+                }
+            });
+            
+            // Toggle current dropdown
+            dropdown.classList.toggle('show');
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
+            }
+        });
+
+        function changeCity(city) {
+            console.log('City changed to:', city);
+        }
+
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        }
+
+        function toggleSubMenu(id) {
+            const submenu = document.getElementById(id);
+            if (submenu) {
+                submenu.classList.toggle('hidden');
+            }
+        }
+
+        function openApplicationModal() {
+            console.log('Application modal opened');
+        }
+    </script>
+    
+    <style>
+        .gradient-text {
+            background: linear-gradient(45deg, #0088cc, #00a3e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4b5563;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+        }
+
+        .dropdown-btn:hover {
+            background: #f3f4f6;
+            color: #0088cc;
+        }
+
+        .dropdown-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+        }
+
+        .dropdown.show .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            width: 100%;
+            padding: 12px 16px;
+            color: #4b5563;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: #f3f4f6;
+            color: #0088cc;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    {% include 'header_updated.html' %}
+
+    <!-- Hero Section -->
+    <section class="py-16" style="background: linear-gradient(135deg, {{ category.color }}dd, {{ category.color }}aa);">
+        <div class="container mx-auto px-4 text-white">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">{{ category.name }}</h1>
+                <p class="text-xl mb-8">{{ category.description }}</p>
+                <div class="text-lg">
+                    <i class="fas fa-newspaper mr-2"></i>
+                    {{ articles|length }} {{ "статья" if articles|length == 1 else ("статьи" if articles|length < 5 else "статей") }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 py-12">
+        <!-- Breadcrumbs -->
+        <nav class="mb-8">
+            <ol class="flex items-center space-x-2 text-sm text-gray-600">
+                <li><a href="{{ url_for('index') }}" class="hover:text-[#0088CC]">Главная</a></li>
+                <li><i class="fas fa-chevron-right text-xs"></i></li>
+                <li><a href="{{ url_for('blog') }}" class="hover:text-[#0088CC]">Блог</a></li>
+                <li><i class="fas fa-chevron-right text-xs"></i></li>
+                <li class="text-gray-900">{{ category.name }}</li>
+            </ol>
+        </nav>
+
+        {% if articles %}
+        <!-- Articles Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for article in articles %}
+            <article class="bg-white rounded-lg shadow-sm hover:shadow-md transition duration-300">
+                <div class="aspect-video bg-gray-200 rounded-t-lg overflow-hidden">
+                    <img src="{{ article.image }}" alt="{{ article.title }}" 
+                         class="w-full h-full object-cover hover:scale-105 transition duration-300">
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-gray-500 text-sm">{{ article.date }}</span>
+                        {% if article.featured %}
+                        <span class="px-2 py-1 bg-gray-100 text-yellow-800 text-xs rounded-full">
+                            <i class="fas fa-star mr-1"></i>Рекомендуем
+                        </span>
+                        {% endif %}
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 hover:text-[#0088CC] transition duration-300">
+                        <a href="{{ url_for('blog_article', slug=article.slug) }}">{{ article.title }}</a>
+                    </h3>
+                    <p class="text-gray-600 mb-4">{{ article.excerpt }}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="fas fa-user mr-2"></i>
+                            <span>{{ article.author }}</span>
+                        </div>
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span><i class="fas fa-clock mr-1"></i>{{ article.reading_time }} мин</span>
+                            <span><i class="fas fa-eye mr-1"></i>{{ article.views }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <a href="{{ url_for('blog_article', slug=article.slug) }}" 
+                           class="inline-flex items-center font-medium hover:text-gray-700 transition duration-300"
+                           style="color: {{ category.color }}">
+                            Читать далее <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-12">
+            <i class="fas fa-folder-open text-6xl text-gray-300 mb-4"></i>
+            <h3 class="text-2xl font-semibold text-gray-900 mb-2">Статей в категории пока нет</h3>
+            <p class="text-gray-600 mb-6">Скоро здесь появятся полезные материалы по теме "{{ category.name }}"</p>
+            <a href="{{ url_for('blog') }}" class="bg-[#0088CC] text-white px-6 py-3 rounded-lg hover:bg-[#006699] transition duration-300">
+                Посмотреть все статьи
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Back to Blog -->
+        <div class="mt-12 text-center">
+            <a href="{{ url_for('blog') }}" 
+               class="inline-flex items-center text-gray-600 hover:text-gray-800 transition duration-300">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Вернуться ко всем статьям
+            </a>
+        </div>
+    </div>
+
+    {% include 'footer_original.html' %}
+</body>
+</html>

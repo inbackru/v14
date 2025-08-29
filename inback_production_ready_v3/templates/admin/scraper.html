@@ -1,0 +1,331 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Парсер застройщиков{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">🏗️ Парсер застройщиков Краснодара</h1>
+                <p class="text-gray-600 mt-2">Автоматический сбор данных о ЖК и квартирах от застройщиков</p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button onclick="testScraper()" 
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+                    🧪 Тест парсинга
+                </button>
+                <button onclick="runFullScraper()" 
+                        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition-colors">
+                    🚀 Запустить полный парсинг
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status Panel -->
+    <div id="statusPanel" class="bg-white shadow rounded-lg p-6 hidden">
+        <div class="flex items-center space-x-3">
+            <div id="statusSpinner" class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500"></div>
+            <div>
+                <h3 class="font-medium text-gray-900">Статус парсинга</h3>
+                <p id="statusText" class="text-gray-600">Инициализация...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Panel -->
+    <div id="resultsPanel" class="bg-white shadow rounded-lg p-6 hidden">
+        <h3 class="font-medium text-gray-900 mb-4">📊 Результаты парсинга</h3>
+        <div id="resultsContent">
+            <!-- Results will be populated here -->
+        </div>
+    </div>
+
+    <!-- Scraped Files -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="font-medium text-gray-900">📁 Файлы данных</h3>
+            <button onclick="loadFilesList()" 
+                    class="text-blue-500 hover:text-blue-700 transition-colors">
+                🔄 Обновить
+            </button>
+        </div>
+        
+        <div id="filesList">
+            <p class="text-gray-500">Загрузка списка файлов...</p>
+        </div>
+    </div>
+
+    <!-- Supported Developers -->
+    <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="font-medium text-gray-900 mb-4">🏢 Поддерживаемые застройщики</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                    <h4 class="font-medium">ССК (СпецСтройКубань)</h4>
+                </div>
+                <p class="text-sm text-gray-600 mb-2">Ведущий застройщик Краснодара</p>
+                <a href="https://sskuban.ru" target="_blank" 
+                   class="text-blue-500 hover:text-blue-700 text-sm">sskuban.ru →</a>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                    <h4 class="font-medium">Неометрия</h4>
+                </div>
+                <p class="text-sm text-gray-600 mb-2">Федеральный девелопер</p>
+                <a href="https://neometria.ru" target="_blank" 
+                   class="text-blue-500 hover:text-blue-700 text-sm">neometria.ru →</a>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="flex items-center space-x-2 mb-2">
+                    <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                    <h4 class="font-medium">ЮгСтройИнвест</h4>
+                </div>
+                <p class="text-sm text-gray-600 mb-2">В разработке</p>
+                <span class="text-gray-400 text-sm">Поиск актуального сайта</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Global state
+let isRunning = false;
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+    loadFilesList();
+});
+
+// Show status panel
+function showStatus(text) {
+    const panel = document.getElementById('statusPanel');
+    const textEl = document.getElementById('statusText');
+    
+    panel.classList.remove('hidden');
+    textEl.textContent = text;
+}
+
+// Hide status panel
+function hideStatus() {
+    document.getElementById('statusPanel').classList.add('hidden');
+}
+
+// Show results
+function showResults(data) {
+    const panel = document.getElementById('resultsPanel');
+    const content = document.getElementById('resultsContent');
+    
+    let html = '';
+    
+    if (data.stats) {
+        html += `
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-green-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-green-600">${data.stats.developers_created || 0}</div>
+                    <div class="text-sm text-green-700">Застройщиков</div>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-blue-600">${data.stats.complexes_created || 0}</div>
+                    <div class="text-sm text-blue-700">ЖК</div>
+                </div>
+                <div class="bg-purple-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-purple-600">${data.stats.apartments_created || 0}</div>
+                    <div class="text-sm text-purple-700">Квартир</div>
+                </div>
+                <div class="bg-red-50 rounded-lg p-4">
+                    <div class="text-2xl font-bold text-red-600">${data.stats.errors || 0}</div>
+                    <div class="text-sm text-red-700">Ошибок</div>
+                </div>
+            </div>
+        `;
+    }
+    
+    if (data.data) {
+        html += '<h4 class="font-medium mb-3">📋 Детальные результаты:</h4>';
+        html += `<pre class="bg-gray-100 rounded p-4 text-sm overflow-auto max-h-96">${JSON.stringify(data.data, null, 2)}</pre>`;
+    }
+    
+    if (data.backup_file) {
+        html += `<p class="mt-4 text-sm text-gray-600">💾 Данные сохранены в: <code>${data.backup_file}</code></p>`;
+    }
+    
+    content.innerHTML = html;
+    panel.classList.remove('hidden');
+}
+
+// Test scraper without DB integration
+async function testScraper() {
+    if (isRunning) return;
+    
+    isRunning = true;
+    showStatus('Запуск тестового парсинга...');
+    
+    try {
+        const response = await fetch('/admin/scraper/test', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        });
+        
+        const result = await response.json();
+        
+        hideStatus();
+        
+        if (result.success) {
+            showResults({
+                data: result.data,
+                stats: result.stats
+            });
+            
+            // Show success message
+            showNotification('✅ Тестовый парсинг завершен успешно', 'success');
+        } else {
+            showNotification(`❌ Ошибка: ${result.message}`, 'error');
+        }
+        
+    } catch (error) {
+        hideStatus();
+        showNotification(`❌ Ошибка сети: ${error.message}`, 'error');
+    } finally {
+        isRunning = false;
+    }
+}
+
+// Run full scraper with DB integration
+async function runFullScraper() {
+    if (isRunning) return;
+    
+    if (!confirm('Запустить полный парсинг с сохранением в базу данных?')) {
+        return;
+    }
+    
+    isRunning = true;
+    showStatus('Выполняется полный парсинг и интеграция с базой данных...');
+    
+    try {
+        const response = await fetch('/admin/scraper/run', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'}
+        });
+        
+        const result = await response.json();
+        
+        hideStatus();
+        
+        if (result.success) {
+            showResults({
+                stats: result.stats,
+                backup_file: result.backup_file
+            });
+            
+            showNotification('✅ Полный парсинг завершен успешно', 'success');
+            loadFilesList(); // Refresh files list
+        } else {
+            showNotification(`❌ Ошибка: ${result.message}`, 'error');
+        }
+        
+    } catch (error) {
+        hideStatus();
+        showNotification(`❌ Ошибка сети: ${error.message}`, 'error');
+    } finally {
+        isRunning = false;
+    }
+}
+
+// Load files list
+async function loadFilesList() {
+    try {
+        const response = await fetch('/admin/scraper/files');
+        const result = await response.json();
+        
+        const listEl = document.getElementById('filesList');
+        
+        if (result.success && result.files.length > 0) {
+            let html = '<div class="space-y-2">';
+            
+            result.files.forEach(file => {
+                const sizeKb = Math.round(file.size / 1024);
+                html += `
+                    <div class="flex items-center justify-between p-3 border rounded">
+                        <div>
+                            <div class="font-medium">${file.name}</div>
+                            <div class="text-sm text-gray-500">${file.modified} • ${sizeKb} KB</div>
+                        </div>
+                        <button onclick="viewFile('${file.name}')" 
+                                class="text-blue-500 hover:text-blue-700 text-sm">
+                            👁️ Просмотреть
+                        </button>
+                    </div>
+                `;
+            });
+            
+            html += '</div>';
+            listEl.innerHTML = html;
+        } else {
+            listEl.innerHTML = '<p class="text-gray-500">Нет файлов данных</p>';
+        }
+        
+    } catch (error) {
+        document.getElementById('filesList').innerHTML = `<p class="text-red-500">Ошибка загрузки: ${error.message}</p>`;
+    }
+}
+
+// View file content
+async function viewFile(filename) {
+    try {
+        const response = await fetch(`/admin/scraper/view-file/${filename}`);
+        const result = await response.json();
+        
+        if (result.success) {
+            // Create modal or new window to show file content
+            const newWindow = window.open('', '_blank');
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>${filename} - Данные парсера</title>
+                        <style>
+                            body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+                            pre { background: white; padding: 15px; border-radius: 5px; overflow: auto; }
+                        </style>
+                    </head>
+                    <body>
+                        <h2>${filename}</h2>
+                        <pre>${JSON.stringify(result.data, null, 2)}</pre>
+                    </body>
+                </html>
+            `);
+        } else {
+            showNotification(`❌ Ошибка: ${result.message}`, 'error');
+        }
+        
+    } catch (error) {
+        showNotification(`❌ Ошибка: ${error.message}`, 'error');
+    }
+}
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `fixed top-4 right-4 p-4 rounded shadow-lg z-50 ${
+        type === 'success' ? 'bg-green-500 text-white' :
+        type === 'error' ? 'bg-red-500 text-white' :
+        'bg-blue-500 text-white'
+    }`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 5000);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ street.name }} - новостройки с кэшбеком до 500 000 ₽ | InBack</title>
+    <meta name="description" content="Новостройки на улице {{ street.name }} в {{ street.district }}, Краснодар. Кэшбек до 500 000 рублей при покупке квартиры. {{ street.properties_count }} вариантов от проверенных застройщиков.">
+    <meta name="keywords" content="{{ street.name }}, новостройки {{ street.name }}, квартиры {{ street.name }}, кэшбек {{ street.name }}, InBack">
+    
+    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+    
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    {% include 'header.html' %}
+
+    <!-- Breadcrumbs -->
+    <div class="container mx-auto px-4 py-3 text-sm">
+        <nav class="flex" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-[#0088CC] hover:underline inline-flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                        Главная
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <a href="{{ url_for('streets') }}" class="text-[#0088CC] hover:underline ml-1 md:ml-2">Улицы Краснодара</a>
+                    </div>
+                </li>
+                <li aria-current="page">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                        <span class="text-gray-500 ml-1 md:ml-2">{{ street.name }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-bold text-gray-800 mb-4">Новостройки на улице {{ street.name }}</h1>
+                    <p class="text-xl text-gray-600 mb-6">{{ street.district }}, Краснодар</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="bg-blue-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-[#0088CC] mb-1">{{ street.properties_count }}</div>
+                            <div class="text-sm text-gray-600">квартир в продаже</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-4 text-center">
+                            <div class="text-2xl font-bold text-green-600 mb-1">{{ street.new_buildings }}</div>
+                            <div class="text-sm text-gray-600">жилых комплексов</div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-[#0088CC] to-blue-600 text-white rounded-lg p-4 mb-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-sm opacity-90">Кэшбек до</div>
+                                <div class="text-2xl font-bold">500 000 ₽</div>
+                            </div>
+                            <div class="text-4xl opacity-75">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="{{ url_for('properties', street=street.name) }}" 
+                       class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#006699] transition-colors">
+                        Смотреть все квартиры
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+                
+                <!-- Map -->
+                <div class="h-80 rounded-lg overflow-hidden shadow-sm">
+                    <div id="streetMap" class="w-full h-full"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Description -->
+        <section class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">О улице {{ street.name }}</h2>
+            
+            <div class="prose max-w-none text-gray-700">
+                <p class="text-lg mb-4">
+                    Улица {{ street.name }} расположена в {{ street.district }} города Краснодара и является одним из 
+                    {% if street.properties_count > 50 %}наиболее развитых{% elif street.properties_count > 20 %}активно развивающихся{% else %}перспективных{% endif %} 
+                    районов для покупки недвижимости в новостройках.
+                </p>
+                
+                <p class="mb-4">
+                    На сегодняшний день на улице {{ street.name }} представлено <strong>{{ street.properties_count }} квартир</strong> 
+                    в {{ street.new_buildings }} жилых комплексах от проверенных застройщиков Краснодара. 
+                    При покупке любой квартиры через сервис InBack вы получаете гарантированный кэшбек до 500 000 рублей.
+                </p>
+
+                <h3 class="text-xl font-semibold mt-6 mb-4">Преимущества покупки на улице {{ street.name }}</h3>
+                <ul class="list-disc pl-6 space-y-2">
+                    <li>Удобное расположение в {{ street.district }}</li>
+                    <li>{{ street.new_buildings }} жилых комплексов на выбор</li>
+                    <li>{{ street.properties_count }} доступных квартир в продаже</li>
+                    <li>Кэшбек до 500 000 рублей при покупке через InBack</li>
+                    <li>Развитая инфраструктура района</li>
+                    <li>Официальное оформление сделки</li>
+                </ul>
+
+                <h3 class="text-xl font-semibold mt-6 mb-4">Инфраструктура района</h3>
+                <p class="mb-4">
+                    Район улицы {{ street.name }} отличается развитой инфраструктурой. Здесь находятся:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6">
+                    <li>Образовательные учреждения (школы, детские сады)</li>
+                    <li>Медицинские центры и поликлиники</li>
+                    <li>Торгово-развлекательные центры</li>
+                    <li>Парки и зоны отдыха</li>
+                    <li>Развитая транспортная сеть</li>
+                    <li>Спортивные комплексы</li>
+                </ul>
+
+                <div class="bg-blue-50 rounded-lg p-6 mt-6">
+                    <h4 class="text-lg font-semibold text-[#0088CC] mb-3">Получите кэшбек до 500 000 ₽</h4>
+                    <p class="text-gray-700 mb-4">
+                        InBack возвращает до 500 000 рублей при покупке квартиры на улице {{ street.name }}. 
+                        Это официальный сервис, работающий напрямую с застройщиками Краснодара.
+                    </p>
+                    <a href="{{ url_for('properties', street=street.name) }}" 
+                       class="inline-flex items-center text-[#0088CC] font-semibold hover:underline">
+                        Выбрать квартиру на {{ street.name }}
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Properties Section -->
+        {% if properties %}
+        <section class="bg-white rounded-lg shadow-sm p-8 mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Доступные квартиры на {{ street.name }}</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {% for property in properties[:6] %}
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="h-48 bg-gray-200 relative">
+                        <img src="https://via.placeholder.com/400x300/f0f0f0/999999?text=Фото+квартиры" 
+                             alt="{{ property.complex_name }}" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute top-3 right-3 bg-green-500 text-white px-2 py-1 rounded text-sm font-semibold">
+                            {{ property.rooms }}-комн.
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-gray-800 mb-2">{{ property.complex_name }}</h3>
+                        <p class="text-sm text-gray-600 mb-3">{{ property.location }}</p>
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-lg font-bold text-[#0088CC]">{{ "{:,}".format(property.price).replace(',', ' ') }} ₽</span>
+                            <span class="text-sm text-gray-500">{{ property.area }} м²</span>
+                        </div>
+                        <div class="text-sm text-green-600 font-semibold mb-3">
+                            Кэшбек: {{ "{:,}".format(property.price // 20).replace(',', ' ') }} ₽
+                        </div>
+                        <a href="{{ url_for('property_detail', property_id=property.id) }}" 
+                           class="block w-full text-center bg-[#0088CC] text-white py-2 rounded hover:bg-[#006699] transition-colors">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            {% if properties|length > 6 %}
+            <div class="text-center mt-6">
+                <a href="{{ url_for('properties', street=street.name) }}" 
+                   class="inline-flex items-center px-6 py-3 bg-[#0088CC] text-white font-semibold rounded-lg hover:bg-[#006699] transition-colors">
+                    Смотреть все {{ properties|length }} квартир
+                    <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            {% endif %}
+        </section>
+        {% endif %}
+
+        <!-- Related Streets -->
+        <section class="bg-white rounded-lg shadow-sm p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Соседние улицы в {{ street.district }}</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Здесь будут показаны другие улицы из того же района -->
+                <div class="text-center text-gray-500 py-8 col-span-full">
+                    <i class="fas fa-map-marked-alt text-4xl mb-4"></i>
+                    <p>Дополнительная информация о соседних улицах будет добавлена в ближайшее время</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <script>
+        // Initialize map
+        document.addEventListener('DOMContentLoaded', function() {
+            // Map coordinates
+            const lat = {{ coordinates.lat }};
+            const lng = {{ coordinates.lng }};
+            
+            // Initialize map
+            const map = L.map('streetMap').setView([lat, lng], 14);
+            
+            // Add OpenStreetMap tiles
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+            
+            // Add marker for the street
+            const marker = L.marker([lat, lng]).addTo(map);
+            marker.bindPopup(`
+                <div class="text-center">
+                    <h3 class="font-semibold text-gray-800 mb-2">{{ street.name }}</h3>
+                    <p class="text-sm text-gray-600 mb-2">{{ street.district }}</p>
+                    <p class="text-sm text-[#0088CC] font-semibold">{{ street.properties_count }} квартир</p>
+                </div>
+            `).openPopup();
+        });
+    </script>
+</body>
+</html>

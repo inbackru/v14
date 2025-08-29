@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block title %}Как получить кэшбек за новостройку | InBack{% endblock %}
+{% block description %}Как получить кэшбек 2,5-10% за новостройку? Пошаговая инструкция работы сервиса InBack. Официальный возврат денег от застройщика при покупке квартиры в Краснодаре.{% endblock %}
+{% block keywords %}как получить кэшбек за квартиру, кэшбек за новостройку, возврат денег за квартиру, система кэшбека inback, оформление кэшбека, этапы получения кэшбека{% endblock %}
+
+{% block head %}
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "Как получить кэшбек за новостройку",
+      "description": "Пошаговая инструкция получения кэшбека при покупке квартиры в новостройке",
+      "totalTime": "P60D",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "text": "Зарегистрируйтесь на сайте или оставьте заявку",
+          "name": "Регистрация на сайте"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Выберите новостройку из каталога или укажите уже выбранную",
+          "name": "Выбор новостройки"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "Мы регистрируем вас как нашего клиента у застройщика перед покупкой",
+          "name": "Оформление сделки"
+        },
+        {
+          "@type": "HowToStep",
+          "text": "После оформления собственности деньги поступают на ваш счет",
+          "name": "Получение кэшбека"
+        }
+      ]
+    }
+</script>
+<script type="application/ld+json">
+    { 
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Главная",
+        "item": "https://inback.ru/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Как это работает",
+        "item": "https://inback.ru/kak-eto-rabotaet"
+      }]
+    }
+</script>
+<script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "RealEstateAgent",
+      "name": "Inback",
+      "image": "https://inback.ru/logo.jpg",
+      "description": "Официальный сервис возврата кэшбека при покупке недвижимости в Краснодаре и других городах России",
+      "priceRange": "$",
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Краснодар и Краснодарский край"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "ул. Красная, 32",
+        "addressLocality": "Краснодар",
+        "addressRegion": "Краснодарский край" 
+      },
+      "telephone": "+78001231212",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "19:00"
+      }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumbs -->
+<div class="container mx-auto px-4 py-3 text-sm">
+<nav aria-label="Breadcrumb" class="flex">
+<ol class="inline-flex items-center space-x-1 md:space-x-3">
+<li class="inline-flex items-center">
+<a class="text-[#0088CC] hover:underline inline-flex items-center" href="{{ url_for('index') }}">
+<svg class="w-4 h-4 mr-2" fill="currentColor" viewbox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                        Главная
+                    </a>
+</li>
+<li aria-current="page">
+<div class="flex items-center">
+<svg class="w-6 h-6 text-gray-400" fill="currentColor" viewbox="0 0 20 20"><path clip-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" fill-rule="evenodd"></path></svg>
+<span class="text-gray-500 ml-1 md:ml-2">Как это работает</span>
+</div>
+</li>
+</ol>
+</nav>
+</div>
+
+<!-- Hero Section -->
+<section class="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+<div class="container mx-auto px-4">
+<div class="max-w-3xl mx-auto text-center">
+<h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Как получить <span class="text-[#0088CC]">кешбэк до 5%</span> за покупку новостройки</h1>
+<p class="text-xl text-gray-600 mb-8">Простая и прозрачная система возврата денег за вашу квартиру в новостройке с профессиональной поддержкой на всех этапах</p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<a class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white rounded-lg hover:shadow-lg transition-all duration-200 transform hover:scale-[1.02] shadow-md font-medium text-center" href="#calculator">Рассчитать кешбэк</a>
+<a class="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all duration-200 transform hover:scale-[1.02] font-medium text-center" href="{{ url_for('properties') }}">Выбрать квартиру</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- How it works Section -->
+<section class="py-16 bg-white">
+<div class="container mx-auto px-4">
+<div class="max-w-4xl mx-auto text-center mb-16">
+<h1 class="text-3xl font-bold mb-4 text-gray-900">Как получить кэшбек за новостройку - пошаговая инструкция</h1>
+<p class="text-xl text-gray-600">4 этапа официального возврата денег от застройщика при покупке квартиры через сервис Inback</p>
+</div>
+<div class="grid md:grid-cols-2 gap-12 mb-16">
+<div class="flex items-start">
+<div class="flex-shrink-0 bg-[#0088CC] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl mr-6">1</div>
+<div>
+<h3 class="text-xl font-bold mb-2">Регистрация на сайте</h3>
+<p class="text-gray-600">Заполните простую форму и получите доступ ко всем возможностям сервиса.</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex-shrink-0 bg-[#0088CC] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl mr-6">2</div>
+<div>
+<h3 class="text-xl font-bold mb-2">Выбор новостройки</h3>
+<p class="text-gray-600">Найдите интересующий ЖК в нашем каталоге или укажите, если уже выбрали.</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex-shrink-0 bg-[#0088CC] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl mr-6">3</div>
+<div>
+<h3 class="text-xl font-bold mb-2">Оформление сделки</h3>
+<p class="text-gray-600">Мы регистрируем вас как нашего клиента у застройщика перед покупкой.</p>
+</div>
+</div>
+<div class="flex items-start">
+<div class="flex-shrink-0 bg-[#0088CC] rounded-full w-12 h-12 flex items-center justify-center text-white font-bold text-xl mr-6">4</div>
+<div>
+<h3 class="text-xl font-bold mb-2">Получение кешбека</h3>
+<p class="text-gray-600">После оформления собственности деньги поступают на ваш счет.</p>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded-xl p-8">
+<h3 class="text-2xl font-bold mb-6 text-gray-900">Важные моменты</h3>
+<div class="grid md:grid-cols-2 gap-8">
+<div>
+<h4 class="font-medium mb-2 text-[#0088CC]">Когда выплачивается кешбек?</h4>
+<p class="text-gray-600">Обычно через 30-60 дней после регистрации права собственности на квартиру.</p>
+</div>
+<div>
+<h4 class="font-medium mb-2 text-[#0088CC]">Какой максимальный кешбек?</h4>
+<p class="text-gray-600">От 2,5% до 7% от стоимости квартиры, в зависимости от застройщика.</p>
+</div>
+<div>
+<h4 class="font-medium mb-2 text-[#0088CC]">Есть ли ограничения?</h4>
+<p class="text-gray-600">Кешбек доступен только для первичного рынка недвижимости и требует предварительной регистрации.</p>
+</div>
+<div>
+<h4 class="font-medium mb-2 text-[#0088CC]">Нужно ли платить за услуги?</h4>
+<p class="text-gray-600">Все услуги сервиса предоставляются покупателю абсолютно бесплатно.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Calculator Section -->
+<section id="calculator" class="py-16 bg-gray-50">
+    <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Калькулятор кешбека</h2>
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Input Section -->
+                    <div>
+                        <h3 class="text-xl font-semibold mb-6">Параметры квартиры</h3>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Стоимость квартиры</label>
+                            <div class="flex items-center">
+                                <input type="range" id="propertyPrice" min="2000000" max="15000000" step="100000" value="5000000"
+                                       class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                            <div class="text-center mt-2 text-lg font-semibold text-[#0088CC]" id="propertyPriceDisplay">5 000 000 ₽</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Процент кешбека</label>
+                            <div class="flex items-center">
+                                <input type="range" id="cashbackPercent" min="2.5" max="7" step="0.1" value="3.5"
+                                       class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer">
+                            </div>
+                            <div class="text-center mt-2 text-lg font-semibold text-[#0088CC]" id="cashbackPercentDisplay">3.5%</div>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Застройщик</label>
+                            <select id="developer" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0088CC] focus:border-[#0088CC]">
+                                <option value="3.5">ЮгСтройИнвест (3.5%)</option>
+                                <option value="4.0">Кубань-Строй (4.0%)</option>
+                                <option value="5.0">Гранель (5.0%)</option>
+                                <option value="3.0">КраснодарГражданПроект (3.0%)</option>
+                                <option value="7.0">Девелопмент-Юг (7.0%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Section -->
+                    <div class="bg-gradient-to-br from-[#0088CC] to-[#006699] text-white rounded-xl p-6">
+                        <h3 class="text-xl font-semibold mb-6">Расчет кешбека</h3>
+                        
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span>Стоимость квартиры:</span>
+                                <span class="font-bold" id="finalPropertyPrice">5 000 000 ₽</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-white/20">
+                                <span>Процент кешбека:</span>
+                                <span class="font-bold" id="finalCashbackPercent">3.5%</span>
+                            </div>
+                            <div class="flex justify-between items-center py-4">
+                                <span class="text-lg">Размер кешбека:</span>
+                                <span class="text-2xl font-bold" id="cashbackAmount">175 000 ₽</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-white/20">
+                            <p class="text-sm opacity-90 mb-4">Средний срок выплаты: 45 дней после регистрации права собственности</p>
+                            <button onclick="openApplicationModal()" class="w-full bg-white text-[#0088CC] font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition duration-300">
+                                Оформить заявку
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-16 bg-white">
+    <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-900">Часто задаваемые вопросы</h2>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(1)">
+                        <h3 class="text-lg font-medium">Обязательно ли регистрироваться на сайте для получения кешбека?</h3>
+                        <i class="fas fa-chevron-down text-[#0088CC] transition-transform" id="faq-icon-1"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden" id="faq-content-1">
+                        <p>Да, регистрация на сайте и подача заявки — обязательное условие. Мы должны зарегистрировать вас как нашего клиента у застройщика ДО заключения договора купли-продажи.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(2)">
+                        <h3 class="text-lg font-medium">Можно ли получить кешбек за уже купленную квартиру?</h3>
+                        <i class="fas fa-chevron-down text-[#0088CC] transition-transform" id="faq-icon-2"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden" id="faq-content-2">
+                        <p>К сожалению, нет. Кешбек доступен только при условии предварительной регистрации клиента у застройщика через наш сервис до заключения договора.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <button class="flex justify-between items-center w-full text-left" onclick="toggleFAQ(3)">
+                        <h3 class="text-lg font-medium">Какие документы нужны для получения кешбека?</h3>
+                        <i class="fas fa-chevron-down text-[#0088CC] transition-transform" id="faq-icon-3"></i>
+                    </button>
+                    <div class="mt-3 text-gray-600 hidden" id="faq-content-3">
+                        <p>После покупки квартиры вам понадобится: договор купли-продажи, выписка из ЕГРН о регистрации права собственности, паспорт и банковские реквизиты для перечисления кешбека.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-16 bg-gradient-to-r from-[#0088CC] to-[#006699] text-white">
+    <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-6">Готовы получить кешбек за вашу квартиру?</h2>
+        <p class="text-xl mb-8 opacity-90">Оставьте заявку и получите персональную консультацию по максимальному кешбеку</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <button onclick="openApplicationModal()" class="px-8 py-4 bg-white text-[#0088CC] font-bold rounded-lg hover:bg-gray-100 transition duration-300">
+                Рассчитать мой кешбек
+            </button>
+            <a href="tel:+78001234567" class="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-[#0088CC] transition duration-300">
+                Позвонить нам
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+// Calculator functionality
+function updateCalculator() {
+    const propertyPriceSlider = document.getElementById('propertyPrice');
+    const cashbackPercentSlider = document.getElementById('cashbackPercent');
+    const developerSelect = document.getElementById('developer');
+    
+    const propertyPrice = parseInt(propertyPriceSlider.value);
+    let cashbackPercent = parseFloat(cashbackPercentSlider.value);
+    
+    // Update from developer selection
+    if (developerSelect.value) {
+        cashbackPercent = parseFloat(developerSelect.value);
+        cashbackPercentSlider.value = cashbackPercent;
+    }
+    
+    const cashbackAmount = propertyPrice * (cashbackPercent / 100);
+    
+    // Update displays
+    document.getElementById('propertyPriceDisplay').textContent = formatNumber(propertyPrice) + ' ₽';
+    document.getElementById('cashbackPercentDisplay').textContent = cashbackPercent + '%';
+    document.getElementById('finalPropertyPrice').textContent = formatNumber(propertyPrice) + ' ₽';
+    document.getElementById('finalCashbackPercent').textContent = cashbackPercent + '%';
+    document.getElementById('cashbackAmount').textContent = formatNumber(Math.round(cashbackAmount)) + ' ₽';
+}
+
+function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+// FAQ Toggle function
+function toggleFAQ(id) {
+    const content = document.getElementById(`faq-content-${id}`);
+    const icon = document.getElementById(`faq-icon-${id}`);
+    
+    if (content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        content.classList.add('hidden');
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+
+// Modal functions
+// openApplicationModal function is defined globally in base.html
+
+// Initialize calculator
+document.addEventListener('DOMContentLoaded', function() {
+    updateCalculator();
+    
+    // Add event listeners
+    document.getElementById('propertyPrice').addEventListener('input', updateCalculator);
+    document.getElementById('cashbackPercent').addEventListener('input', updateCalculator);
+    document.getElementById('developer').addEventListener('change', updateCalculator);
+});
+</script>
+{% endblock %}
